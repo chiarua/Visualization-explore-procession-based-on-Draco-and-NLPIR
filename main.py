@@ -1,7 +1,6 @@
 # Suppressing warnings raised by altair in the background
 # (iteration-related deprecation warnings)
 import warnings
-from draco.renderer import AltairRenderer
 
 warnings.filterwarnings("ignore")
 # Display utilities
@@ -11,27 +10,32 @@ import draco as drc
 import pandas as pd
 from vega_datasets import data as vega_data
 import altair as alt
+
+# Loading data to be explored
+df: pd.DataFrame = vega_data.seattle_weather()
+df.head()
+
+#df=pd.read_csv('cars.csv')
+
+
+
+
+#print(df)
+
+data_schema = drc.schema_from_dataframe(df)
+#pprint(data_schema)
+data_schema_facts = drc.dict_to_facts(data_schema)
+#pprint(data_schema_facts)
 from draco.renderer import AltairRenderer
 
+input_spec_base = data_schema_facts + [
+    "entity(view,root,v0).",
+    "entity(mark,v0,m0)."
+]
+#pprint(input_spec_base)
 d = drc.Draco()
 renderer = AltairRenderer()
 
-
-
-#读入数据
-def load_data(file_path):
-    dataframe=pd.read_csv(file_path)
-    return dataframe
-
-
-def spec_base_generate(dataframe,mark_type='bar'):
-    data_schema = drc.schema_from_dataframe(dataframe)
-    data_schema_facts = drc.dict_to_facts(data_schema)
-    spec_base = data_schema_facts + [
-        "entity(view,root,v0).",
-        "entity(mark,v0,m0)."
-    ]
-    return spec_base
 
 
 def recommend_charts(
@@ -52,28 +56,53 @@ def recommend_charts(
             isinstance(chart, alt.FacetChart)
             and chart.facet.column is not alt.Undefined
         ):
-            print('nihao')
+            #print('nihao'*10)
             chart = chart.configure_view(continuousWidth=130, continuousHeight=130)
         display(chart)
+        chart.save('filename'+str(i)+'.html')
 
     return chart_specs
-
-dataframe=load_data('cars.csv')
-dataframe.head()
-#print(dataframe)
-
-'''
-df: pd.DataFrame = vega_data.seattle_weather()
-df.head()
-dataframe=df
-#print(dataframe)
-'''
+input_spec=input_spec_base
+#recommend_charts(spec=input_spec, draco=d)
 
 
 
-spec_base=spec_base_generate(dataframe)
-#print(spec_base)
-recommend_charts(spec_base,d)
+def rec_from_generated_spec(
+    marks: list[str],
+    fields: list[str],
+    encoding_channels: list[str],
+    draco: drc.Draco,
+    num: int = 1,
+) -> dict[str, dict]:
+    input_specs = [
+        (
+            (mark, field, enc_ch),
+            input_spec_base
+            + [
+                f"attribute((mark,type),m0,{mark}).",
+                "entity(encoding,m0,e0).",
+                f"attribute((encoding,field),e0,{field}).",
+                f"attribute((encoding,channel),e0,{enc_ch}).",
+                # filter out designs with less than 3 encodings
+                ":- {entity(encoding,_,_)} < 3.",
+                # exclude multi-layer designs
+                ":- {entity(mark,_,_)} != 1.",
+            ],
+        )
+        for mark in marks
+        for field in fields
+        for enc_ch in encoding_channels
+    ]
+    recs = {}
+    for cfg, spec in input_specs:
+        labeler = lambda i: f"CHART {i + 1} ({' | '.join(cfg)})"
+        recs = recs | recommend_charts(spec=spec, draco=draco, num=num, labeler=labeler)
 
+    return recs
 
-
+recommendations = rec_from_generated_spec(
+    marks=["point", "bar", "line", "rect"],
+    fields=["weather", "temp_min", "date"],
+    encoding_channels=["color", "shape", "size"],
+    draco=d,
+)
