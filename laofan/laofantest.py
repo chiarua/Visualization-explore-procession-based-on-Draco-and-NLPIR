@@ -18,7 +18,7 @@ df: pd.DataFrame = vega_data.seattle_weather()
 df.head()
 
 def load_data(file_path):
-    df=pd.DataFrame(file_path)
+    df=pd.read_csv(file_path)
     return df
 
 #基础事实集的创建
@@ -103,3 +103,17 @@ def upgrade_spec(new_marks,new_fields,new_encoding_channels):
         encoding_channels=new_encoding_channels,
         draco=d,
     )
+
+
+print('数据地址:')
+file_path=input()
+df=load_data(file_path)
+print("约束条件:")
+print('marks:')
+new_marks=input().split()
+print('fields:')
+new_fields=input().split()
+print('new_encoding_channels:')
+new_encoding_channels=input().split()
+upgrade_spec(new_marks,new_fields,new_encoding_channels)
+
