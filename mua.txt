@@ -1,2 +1,7 @@
+18日上午：
 初步解决用户输入数据的格式要求
-初步了解推荐算法运行流程
+初步了解推荐算法函数(recommend_charts)
+18日下午计划：
+完善关键词提取
+看明白rec_from_generated_spec()
+看明白display_debug_data()
