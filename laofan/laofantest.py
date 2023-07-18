@@ -95,9 +95,11 @@ def rec_from_generated_spec(
 
     return recs
 #用户输入约束条件
-recommendations = rec_from_generated_spec(
-    marks=["point", "bar"],
-    fields=["weather", "temp_min", "date"],
-    encoding_channels=["color", "shape", "size"],
-    draco=d,
-)
+
+def upgrade_spec(new_marks,new_fields,new_encoding_channels):
+    recommendations = rec_from_generated_spec(
+        marks=new_marks,
+        fields=new_fields,
+        encoding_channels=new_encoding_channels,
+        draco=d,
+    )
