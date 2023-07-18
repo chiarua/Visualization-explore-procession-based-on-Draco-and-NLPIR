@@ -96,7 +96,7 @@ def rec_from_generated_spec(
     return recs
 #用户输入约束条件
 
-def upgrade_spec(new_marks,new_fields,new_encoding_channels):
+def update_spec(new_marks,new_fields,new_encoding_channels):
     recommendations = rec_from_generated_spec(
         marks=new_marks,
         fields=new_fields,
@@ -108,6 +108,7 @@ def upgrade_spec(new_marks,new_fields,new_encoding_channels):
 print('数据地址:')
 file_path=input()
 df=load_data(file_path)
+print(df)
 print("约束条件:")
 print('marks:')
 new_marks=input().split()
@@ -115,5 +116,5 @@ print('fields:')
 new_fields=input().split()
 print('new_encoding_channels:')
 new_encoding_channels=input().split()
-upgrade_spec(new_marks,new_fields,new_encoding_channels)
+update_spec(new_marks,new_fields,new_encoding_channels)
 
