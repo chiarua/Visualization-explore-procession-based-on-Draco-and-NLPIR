@@ -14,8 +14,11 @@ import altair as alt
 d = drc.Draco()
 renderer = AltairRenderer()
 #载入数据
-df: pd.DataFrame = vega_data.seattle_weather()
-df.head()
+#df: pd.DataFrame = vega_data.seattle_weather()
+#df.head()
+
+#df.to_csv('weather.csv', index=False)
+
 
 def load_data(file_path):
     df=pd.read_csv(file_path)
@@ -31,7 +34,7 @@ def generate_spec_base(df):
     ]
     return input_spec_base
 
-input_spec_base=generate_spec_base(df)
+
 
 #推荐图表生成函数
 def recommend_charts(
@@ -58,7 +61,7 @@ def recommend_charts(
         chart.save('chart'+str(k)+'.html')
 
     return chart_specs
-input_spec=input_spec_base
+
 #添加约束条件
 def rec_from_generated_spec(
     marks: list[str],
@@ -105,16 +108,16 @@ def update_spec(new_marks,new_fields,new_encoding_channels):
     )
 
 
-print('数据地址:')
-file_path=input()
+
+file_path=input("数据地址:")
 df=load_data(file_path)
-print(df)
+input_spec_base=generate_spec_base(df)
 print("约束条件:")
-print('marks:')
-new_marks=input().split()
-print('fields:')
-new_fields=input().split()
-print('new_encoding_channels:')
-new_encoding_channels=input().split()
+
+new_marks=input('marks:').split()
+
+new_fields=input('fields:').split()
+
+new_encoding_channels=input('new_encoding_channels:').split()
 update_spec(new_marks,new_fields,new_encoding_channels)
 
