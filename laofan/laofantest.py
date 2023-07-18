@@ -16,13 +16,23 @@ renderer = AltairRenderer()
 #载入数据
 df: pd.DataFrame = vega_data.seattle_weather()
 df.head()
+
+def load_data(file_path):
+    df=pd.DataFrame(file_path)
+    return df
+
 #基础事实集的创建
-data_schema = drc.schema_from_dataframe(df)
-data_schema_facts = drc.dict_to_facts(data_schema)
-input_spec_base = data_schema_facts + [
-    "entity(view,root,v0).",
-    "entity(mark,v0,m0)."
-]
+def generate_spec_base(df):
+    data_schema = drc.schema_from_dataframe(df)
+    data_schema_facts = drc.dict_to_facts(data_schema)
+    input_spec_base = data_schema_facts + [
+        "entity(view,root,v0).",
+        "entity(mark,v0,m0)."
+    ]
+    return input_spec_base
+
+input_spec_base=generate_spec_base(df)
+
 #推荐图表生成函数
 def recommend_charts(
     spec: list[str], draco: drc.Draco, num: int = 5, labeler=lambda i: f"CHART {i+1}",k:int =1
