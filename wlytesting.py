@@ -31,13 +31,14 @@ def recommend_charts(
         print(f"COST: {model.cost}")
         chart = renderer.render(spec=spec, data=df)
         # Adjust column-faceted chart size
+
         if (
                 isinstance(chart, alt.FacetChart)
                 and chart.facet.column is not alt.Undefined
         ):
             chart = chart.configure_view(continuousWidth=130, continuousHeight=130)
         display(chart)
-        chart.save(output_path + 'recommendchart' + str(count_files_in_directory(output_path)) + '.html')
+        chart.save(output_path + 'rec_ch' + str(count_files_in_directory(output_path)) + '.html')
 
     return chart_specs
 
@@ -81,16 +82,15 @@ def rec_from_generated_spec(
             (mark, field, enc_ch),
             input_spec_base
             + [
-
                 f"attribute((mark,type),m0,{mark}).",
                 "entity(encoding,m0,e0).",
                 f"attribute((encoding,field),e0,{field}).",
                 f"attribute((encoding,channel),e0,{enc_ch}).",
                 #暂时去掉
                 # filter out designs with less than 3 encodings
-                #":- {entity(encoding,_,_)} < 3.",
+                ":- {entity(encoding,_,_)} < 3.",
                 # exclude multi-layer designs
-                #":- {entity(mark,_,_)} != 1.",
+                ":- {entity(mark,_,_)} != 1.",
             ],
 
         )
@@ -98,7 +98,6 @@ def rec_from_generated_spec(
         for field in fields
         for enc_ch in encoding_channels
     ]
-    print(d.check_spec(input_specs))
     recs = {}
     # k = 0
     for cfg, spec in input_specs:
@@ -108,29 +107,30 @@ def rec_from_generated_spec(
 
     return recs
 
-def get_users_restriction():
-    print("Input your restrictions:")
+
+# 生成饼图的输入函数
+def get_users_restriction(df):
+    print("Please input your restriction:")
     new_marks = input('marks:').split()
+    polar = new_marks == ['pie']
+    if polar:
+        new_marks = []
+    print(polar)
+    if not new_marks:
+        new_marks = ['point', 'bar', 'line', 'area', 'tick', 'rect'] if not polar else ['bar']
     new_fields = input('fields:').split()
+    x_and_y = len(new_fields) == 3 and new_fields[1] == 'and'
+    if x_and_y:
+        new_fields.remove('and')
+    if not new_fields:
+        new_fields = df.columns.tolist()
     new_encoding_channels = input('new_encoding_channels:').split()
-    return [new_marks, new_fields, new_encoding_channels]
+    if not new_encoding_channels:
+        new_encoding_channels = ['color', 'shape', 'size', 'x', 'y'] if not polar else ['x']
+        if x_and_y:
+            new_encoding_channels = ['x', 'y']
+    return [new_marks, new_fields, new_encoding_channels, polar]
 
-
-def grouped_bar_chart():
-    return ["entity(mark,m0).",
-"attribute((mark,type),m0,bar).",
-
-"entity(encoding,m0,e0).",
-"attribute((encoding,field),e0,weather).",
-"attribute((encoding,channel),e0,x).",
-
-"entity(encoding,m0,e1).",
-"attribute((encoding,field),e1,wind).",
-"attribute((encoding,channel),e1,y).",
-            "entity(encoding,m0,e2).",
-            "attribute((encoding,field),e2,wind).",
-            "attribute((encoding,channel),e2,color).",
-            ]
 
 # 用户输入约束条件的推荐函数
 def update_spec(new_marks, new_fields, new_encoding_channels):
@@ -177,18 +177,22 @@ def display_debug_data(draco: drc.Draco, specs: dict[str, dict]):
     chart.save(output_path + 'debugchart' + str(count_files_in_directory(output_path)) + '.html')
 
 
+
 # 以下是测试调用
 path = input("Please input the path of the csv file: ")
 output_path = get_output_address() + '\\'
 df = get_csvfile(path)
 d = drc.Draco()
 renderer = AltairRenderer()
-input_spec_base = generate_spec_base(df)+grouped_bar_chart()
-recommendations = recommend_charts(spec=input_spec_base, draco=d, num=5)
+input_spec_base = generate_spec_base(df)
+#recommendations = recommend_charts(spec=input_spec_base, draco=d, num=5)
 #display_debug_data(draco=d, specs=recommendations)
 # 其实看不懂debug的图表，但可以做测试
-n_marks, n_fields, n_encoding_channels = get_users_restriction()
-#update_spec(n_marks, n_fields, n_encoding_channels)
+n_marks, n_fields, n_encoding_channels, polar= get_users_restriction(df)
+print(n_marks,n_fields,n_encoding_channels,polar)
+if polar:
+    input_spec_base.append('attribute((view,coordinates),v0,polar).')
+update_spec(n_marks, n_fields, n_encoding_channels)
 #display_debug_data(draco=d, specs=recommendations)
 # C:\Users\27217\Documents\GitHub\testing-7-16-23\laofan\data\weather.csv
 # C:\Users\27217\Desktop\testing generate charts
