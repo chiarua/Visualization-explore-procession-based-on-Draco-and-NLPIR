@@ -37,7 +37,7 @@ def recommend_charts(
         ):
             chart = chart.configure_view(continuousWidth=130, continuousHeight=130)
         display(chart)
-        #chart.save(output_path + 'recommendchart' + str(count_files_in_directory(output_path)) + '.html')
+        chart.save(output_path + 'recommendchart' + str(count_files_in_directory(output_path)) + '.html')
 
     return chart_specs
 
@@ -81,14 +81,17 @@ def rec_from_generated_spec(
             (mark, field, enc_ch),
             input_spec_base
             + [
+
                 f"attribute((mark,type),m0,{mark}).",
                 "entity(encoding,m0,e0).",
                 f"attribute((encoding,field),e0,{field}).",
                 f"attribute((encoding,channel),e0,{enc_ch}).",
+
+                #暂时去掉
                 # filter out designs with less than 3 encodings
-                ":- {entity(encoding,_,_)} < 3.",
+                #":- {entity(encoding,_,_)} < 3.",
                 # exclude multi-layer designs
-                ":- {entity(mark,_,_)} != 1.",
+                #":- {entity(mark,_,_)} != 1.",
             ],
         )
         for mark in marks
@@ -113,7 +116,7 @@ def update_spec(new_marks, new_fields, new_encoding_channels):
         encoding_channels=new_encoding_channels,
         draco=d,
     )
-    display_debug_data(draco=d, specs=recommendations)
+    #display_debug_data(draco=d, specs=recommendations)
 
 
 def get_users_restriction():
@@ -165,13 +168,13 @@ df = get_csvfile(path)
 d = drc.Draco()
 renderer = AltairRenderer()
 input_spec_base = generate_spec_base(df)
-recommendations = recommend_charts(spec=input_spec_base, draco=d, num=5)
-display_debug_data(draco=d, specs=recommendations)
+#recommendations = recommend_charts(spec=input_spec_base, draco=d, num=5)
+#display_debug_data(draco=d, specs=recommendations)
 # 其实看不懂debug的图表，但可以做测试
 n_marks, n_fields, n_encoding_channels = get_users_restriction()
 update_spec(n_marks, n_fields, n_encoding_channels)
-display_debug_data(draco=d, specs=recommendations)
-# C:\Users\27217\Documents\GitHub\testing-7-16-23\laofan\weather.csv
+#display_debug_data(draco=d, specs=recommendations)
+# C:\Users\27217\Documents\GitHub\testing-7-16-23\laofan\data\weather.csv
 # C:\Users\27217\Desktop\testing generate charts
 # point line bar
 # weather wind date
