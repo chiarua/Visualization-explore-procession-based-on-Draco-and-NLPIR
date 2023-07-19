@@ -1,0 +1,101 @@
+q1,q2,q4,n1,n2,n3,n4,o1,o2,o3,o4
+3.02,1,73,blue,dog,Seattle,home,6,sad,XS,light
+0.98,3,78,red,fish,San Francisco,home,8,neutral,XL,light
+0.23,6,8,green,dog,San Francisco,away,6,neutral,S,medium
+-1.15,1,29,green,dog,San Francisco,away,8,sad,M,light
+1.35,1,36,red,hamster,Seattle,away,4,neutral,L,dark
+-0.17,2,67,blue,hamster,New York,home,4,happy,S,dark
+0.98,1,8,red,cat,Seattle,away,4,happy,M,medium
+-1.57,5,84,red,fish,New York,away,4,happy,M,light
+0.34,1,78,green,dog,Seattle,home,4,happy,S,dark
+1.78,1,71,red,cat,New York,away,8,neutral,L,dark
+-1.27,3,99,red,hamster,San Francisco,away,2,happy,L,medium
+-0.87,2,63,green,dog,New York,away,2,sad,XL,medium
+-0.64,2,45,blue,hamster,New York,away,4,sad,XS,medium
+0.79,4,76,green,hamster,Seattle,away,2,sad,M,light
+0.95,1,75,green,cat,New York,away,2,neutral,L,light
+-0.65,1,87,red,dog,Seattle,home,2,neutral,S,medium
+0.9,2,19,green,hamster,San Francisco,home,8,sad,XL,light
+-0.51,3,96,green,cat,San Francisco,away,6,happy,M,light
+0.52,2,59,blue,hamster,Seattle,away,2,happy,L,light
+0.51,1,85,blue,fish,New York,home,2,neutral,XS,light
+-0.2,1,7,blue,hamster,San Francisco,home,4,neutral,XL,light
+-1.4,1,73,green,fish,New York,home,2,sad,XS,light
+1.18,3,98,red,dog,New York,home,6,sad,M,light
+-0.64,1,92,green,cat,Seattle,home,8,sad,XS,medium
+-1.27,3,3,blue,fish,San Francisco,away,4,neutral,L,medium
+-0.49,2,76,green,dog,Seattle,home,8,happy,L,light
+-0.87,4,29,blue,hamster,New York,home,8,sad,XS,dark
+-1.28,1,58,red,fish,San Francisco,home,2,sad,L,light
+0.98,2,66,green,cat,San Francisco,home,6,sad,M,dark
+-0.96,1,28,green,dog,Seattle,home,6,happy,M,medium
+-0.5,1,36,green,dog,Seattle,home,4,neutral,XL,medium
+1.2,1,58,green,cat,San Francisco,home,8,neutral,S,dark
+0.2,2,77,red,dog,New York,away,2,sad,L,dark
+0.25,2,11,green,dog,San Francisco,home,2,sad,XL,medium
+1.09,1,56,blue,dog,San Francisco,home,6,neutral,S,dark
+0.44,2,64,green,dog,Seattle,away,4,neutral,M,dark
+0.02,3,96,red,fish,New York,away,4,sad,M,light
+-0.24,4,75,blue,dog,San Francisco,away,2,sad,M,dark
+0.4,6,78,red,fish,New York,home,6,sad,XS,medium
+-1.14,4,75,blue,dog,San Francisco,home,6,happy,M,medium
+0.07,1,76,red,hamster,New York,away,2,neutral,XS,light
+-1.06,3,87,red,hamster,New York,home,2,neutral,S,light
+-0.37,1,99,red,dog,Seattle,away,6,happy,XL,medium
+0.06,2,99,red,cat,San Francisco,home,4,happy,L,medium
+-0.59,1,15,green,dog,New York,home,6,happy,S,medium
+-0.77,1,5,blue,fish,Seattle,away,8,sad,S,medium
+-1.19,4,56,blue,fish,Seattle,home,8,sad,S,medium
+-0.38,1,74,green,dog,Seattle,away,4,neutral,M,dark
+1.33,1,67,green,dog,San Francisco,home,6,happy,S,light
+-0.2,2,21,green,cat,New York,home,8,sad,M,dark
+0.45,2,60,red,hamster,San Francisco,home,4,sad,M,medium
+1.93,6,6,blue,hamster,Seattle,away,4,happy,XS,dark
+0.64,1,74,green,dog,Seattle,home,4,sad,XL,dark
+-0.99,3,8,green,cat,New York,away,8,happy,M,medium
+1.76,2,59,green,fish,Seattle,away,6,neutral,XL,medium
+0.55,1,21,green,hamster,New York,home,4,neutral,S,light
+0.09,1,95,red,hamster,New York,home,2,sad,XL,light
+0.45,3,75,blue,cat,New York,away,8,neutral,XL,dark
+1.37,1,63,blue,dog,Seattle,home,2,happy,S,light
+0.07,2,72,blue,dog,Seattle,home,4,neutral,L,dark
+0.59,1,25,blue,fish,Seattle,away,2,sad,S,dark
+2.11,2,6,green,cat,San Francisco,away,6,sad,M,medium
+0.21,3,75,red,fish,New York,away,8,sad,XS,dark
+-1.27,1,3,blue,dog,New York,home,8,sad,M,medium
+-1.3,3,30,blue,cat,Seattle,home,2,sad,XL,light
+0.09,1,29,blue,fish,New York,away,4,neutral,XL,light
+0.35,2,95,blue,hamster,San Francisco,home,4,neutral,XL,medium
+0.65,1,4,blue,dog,San Francisco,away,8,neutral,XS,medium
+-0.84,2,23,green,hamster,New York,away,8,neutral,S,medium
+-1.26,4,92,blue,dog,Seattle,away,2,happy,M,light
+0.17,1,92,blue,dog,San Francisco,home,4,sad,XL,dark
+0.75,1,44,red,hamster,San Francisco,home,2,happy,L,dark
+2.08,1,33,green,hamster,Seattle,away,4,neutral,L,light
+0.62,1,88,red,dog,New York,home,2,neutral,S,light
+-1.54,1,19,blue,cat,Seattle,home,2,neutral,XL,medium
+-0.4,2,46,green,hamster,San Francisco,away,4,sad,XS,medium
+0.21,6,75,red,hamster,Seattle,away,2,neutral,XL,light
+0.04,1,53,green,cat,New York,away,6,happy,S,light
+-0.36,4,72,green,fish,San Francisco,away,2,sad,S,light
+-1.6,1,14,blue,hamster,New York,away,8,happy,L,light
+-0.67,1,13,red,dog,New York,home,6,neutral,L,dark
+-0.51,2,11,green,fish,San Francisco,away,2,neutral,XS,medium
+0.36,2,85,red,dog,Seattle,away,6,happy,S,light
+-0.22,6,16,blue,fish,New York,away,4,neutral,XL,light
+0.18,2,34,blue,dog,San Francisco,away,4,happy,M,medium
+-1.71,2,95,green,hamster,Seattle,home,6,neutral,S,medium
+1.48,2,78,green,fish,San Francisco,home,8,sad,L,dark
+-0.53,1,83,blue,cat,New York,home,8,happy,S,dark
+-0.1,2,61,green,dog,New York,home,2,sad,XL,medium
+-0.58,3,33,blue,cat,New York,away,6,happy,L,light
+1.24,2,38,blue,cat,San Francisco,home,4,neutral,M,dark
+0.38,2,36,red,dog,Seattle,home,6,sad,XS,light
+1.08,1,16,green,cat,San Francisco,home,2,happy,M,light
+-0.8,4,98,green,cat,San Francisco,home,4,happy,XL,medium
+-0.55,1,91,red,fish,Seattle,home,6,sad,L,medium
+0.12,4,59,blue,cat,Seattle,home,4,neutral,XL,dark
+2.16,1,23,blue,fish,San Francisco,home,4,happy,L,medium
+-0.85,1,1,blue,cat,San Francisco,home,4,happy,S,light
+0.61,3,95,green,dog,New York,away,4,happy,S,dark
+-2.41,2,21,blue,hamster,New York,away,6,neutral,XL,light
