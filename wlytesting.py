@@ -5,6 +5,7 @@ from vega_datasets import data as vega_data
 import altair as alt
 from draco.renderer import AltairRenderer
 import warnings
+import os
 
 warnings.filterwarnings("ignore")
 
@@ -12,10 +13,14 @@ warnings.filterwarnings("ignore")
 # Suppressing warnings raised by altair in the background
 # (iteration-related deprecation warnings)
 
-# 原有推荐函数
+def count_files_in_directory(directory_path):
+    return len([name for name in os.listdir(directory_path) if os.path.isfile(os.path.join(directory_path, name))])
+
+
+# 推荐函数
 def recommend_charts(
-        spec: list[str], draco: drc.Draco, num: int = 5, labeler=lambda i: f"CHART {i + 1}"
-):
+        spec: list[str], draco: drc.Draco, num: int = 5, labeler=lambda i: f"CHART {i + 1}"  # , k:int =1
+) -> dict[str, dict]:
     # Dictionary to store the generated recommendations, keyed by chart name
     chart_specs = {}
     for i, model in enumerate(draco.complete_spec(spec, num)):
@@ -33,10 +38,9 @@ def recommend_charts(
         ):
             chart = chart.configure_view(continuousWidth=130, continuousHeight=130)
         display(chart)
-        print(output_path + 'filename' + str(i) + '.html')
-        chart.save(output_path + 'filename' + str(i) + '.html')
+        chart.save(output_path + 'filename' + str(count_files_in_directory(output_path)) + '.html')
 
-    # return chart_specs(-> dict[str, dict])
+    return chart_specs
 
 
 def get_csvfile(file_path):
@@ -60,26 +64,75 @@ def generate_spec_base(df):
     return input_spec_base
 
 
-# 被generate_spec_base()函数代替
-'''
-df: pd.DataFrame = get_csvfile("")
-df.head()
+# 从更新的事实集中直接生成图表
+# 用到了recommend函数
+def rec_from_generated_spec(
+        marks: list[str],
+        fields: list[str],
+        encoding_channels: list[str],
+        draco: drc.Draco,
+        num: int = 1,
+) -> dict[str, dict]:
+    input_specs = [
+        (
+            (mark, field, enc_ch),
+            input_spec_base
+            + [
+                f"attribute((mark,type),m0,{mark}).",
+                "entity(encoding,m0,e0).",
+                f"attribute((encoding,field),e0,{field}).",
+                f"attribute((encoding,channel),e0,{enc_ch}).",
+                # filter out designs with less than 3 encodings
+                ":- {entity(encoding,_,_)} < 3.",
+                # exclude multi-layer designs
+                ":- {entity(mark,_,_)} != 1.",
+            ],
+        )
+        for mark in marks
+        for field in fields
+        for enc_ch in encoding_channels
+    ]
+    recs = {}
+    # k = 0
+    for cfg, spec in input_specs:
+        # k += 1
+        labeler = lambda i: f"CHART {i + 1} ({' | '.join(cfg)})"
+        recs = recs | recommend_charts(spec=spec, draco=draco, num=num, labeler=labeler)
 
-data_schema = drc.schema_from_dataframe(df)
-data_schema_facts = drc.dict_to_facts(data_schema)
-input_spec_base = data_schema_facts + [
-    "entity(view,root,v0).",
-    "entity(mark,v0,m0)."
-]
-'''
+    return recs
 
+
+# 用户输入约束条件
+def update_spec(new_marks, new_fields, new_encoding_channels):
+    recommendations = rec_from_generated_spec(
+        marks=new_marks,
+        fields=new_fields,
+        encoding_channels=new_encoding_channels,
+        draco=d,
+    )
+
+
+
+def get_users_restriction():
+    print("Input your restrictions:")
+    new_marks = input('marks:').split()
+    new_fields = input('fields:').split()
+    new_encoding_channels = input('new_encoding_channels:').split()
+    return [new_marks, new_fields, new_encoding_channels]
+
+
+# def operate_recommendation_only():
 path = input("Please input the path of the csv file: ")
 output_path = get_output_address() + '\\'
 df = get_csvfile(path)
 d = drc.Draco()
 renderer = AltairRenderer()
 input_spec_base = generate_spec_base(df)
-recommend_charts(spec=input_spec_base, draco=d)
-# pprint(input_spec_base)
-# C:\Users\27217\Documents\GitHub\testing-7-16-23\laofan\cars.csv
+n_marks, n_fields, n_encoding_channels = get_users_restriction()
+update_spec(n_marks, n_fields, n_encoding_channels)
+
+# C:\Users\27217\Documents\GitHub\testing-7-16-23\laofan\weather.csv
 # C:\Users\27217\Desktop\testing generate charts
+# point line bar
+# weather wind date
+# size color shape
