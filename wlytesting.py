@@ -8,10 +8,9 @@ import warnings
 import os
 
 warnings.filterwarnings("ignore")
-
-
 # Suppressing warnings raised by altair in the background
 # (iteration-related deprecation warnings)
+
 
 def count_files_in_directory(directory_path):
     return len([name for name in os.listdir(directory_path) if os.path.isfile(os.path.join(directory_path, name))])
@@ -19,7 +18,7 @@ def count_files_in_directory(directory_path):
 
 # 推荐函数
 def recommend_charts(
-        spec: list[str], draco: drc.Draco, num: int = 5, labeler=lambda i: f"CHART {i + 1}"  # , k:int =1
+        spec: list[str], draco: drc.Draco, num: int = 5, labeler=lambda i: f"CHART {i + 1}"
 ) -> dict[str, dict]:
     # Dictionary to store the generated recommendations, keyed by chart name
     chart_specs = {}
@@ -38,15 +37,19 @@ def recommend_charts(
         ):
             chart = chart.configure_view(continuousWidth=130, continuousHeight=130)
         display(chart)
-        chart.save(output_path + 'filename' + str(count_files_in_directory(output_path)) + '.html')
+        chart.save(output_path + 'recommendchart' + str(count_files_in_directory(output_path)) + '.html')
 
     return chart_specs
 
-
+#
 def get_csvfile(file_path):
     df = pd.read_csv(file_path)
     return df
 
+
+def get_jsonfile(file_path):
+    df = pd.read_json(file_path)
+    return df
 
 def get_output_address():
     address = input("Please input the address where you want the picture to be output: ")
@@ -78,14 +81,17 @@ def rec_from_generated_spec(
             (mark, field, enc_ch),
             input_spec_base
             + [
+
                 f"attribute((mark,type),m0,{mark}).",
                 "entity(encoding,m0,e0).",
                 f"attribute((encoding,field),e0,{field}).",
                 f"attribute((encoding,channel),e0,{enc_ch}).",
+
+                #暂时去掉
                 # filter out designs with less than 3 encodings
-                ":- {entity(encoding,_,_)} < 3.",
+                #":- {entity(encoding,_,_)} < 3.",
                 # exclude multi-layer designs
-                ":- {entity(mark,_,_)} != 1.",
+                #":- {entity(mark,_,_)} != 1.",
             ],
         )
         for mark in marks
@@ -102,7 +108,7 @@ def rec_from_generated_spec(
     return recs
 
 
-# 用户输入约束条件
+# 用户输入约束条件的推荐函数
 def update_spec(new_marks, new_fields, new_encoding_channels):
     recommendations = rec_from_generated_spec(
         marks=new_marks,
@@ -110,7 +116,7 @@ def update_spec(new_marks, new_fields, new_encoding_channels):
         encoding_channels=new_encoding_channels,
         draco=d,
     )
-
+    #display_debug_data(draco=d, specs=recommendations)
 
 
 def get_users_restriction():
@@ -121,18 +127,54 @@ def get_users_restriction():
     return [new_marks, new_fields, new_encoding_channels]
 
 
-# def operate_recommendation_only():
+# Parameterized helper to avoid code duplication as we iterate on designs
+# 用于查看规范违反情况的函数
+def display_debug_data(draco: drc.Draco, specs: dict[str, dict]):
+    debugger = drc.DracoDebug(specs=specs, draco=draco)
+    chart_preferences = debugger.chart_preferences
+    display(Markdown("**Raw debug data**"))
+    display(chart_preferences.head())
+
+    display(Markdown("**Number of violated preferences**"))
+    num_violations = len(
+        set(chart_preferences[chart_preferences["count"] != 0]["pref_name"])
+    )
+    num_all = len(set(chart_preferences["pref_name"]))
+    display(
+        Markdown(
+            f"*{num_violations} preferences are violated out of a total of {num_all} preferences (soft constraints)*"
+        )
+    )
+
+    display(
+        Markdown(
+            "Using `DracoDebugPlotter` to visualize the debug `DataFrame` produced by `DracoDebug`:"
+        )
+    )
+    plotter = drc.DracoDebugPlotter(chart_preferences)
+    plot_size = (600, 300)
+    chart = plotter.create_chart(
+        cfg=drc.DracoDebugChartConfig.SORT_BY_COUNT_SUM,
+        violated_prefs_only=True,
+        plot_size=plot_size,
+    )
+    chart.save(output_path + 'debugchart' + str(count_files_in_directory(output_path)) + '.html')
+
+
+# 以下是测试调用
 path = input("Please input the path of the csv file: ")
 output_path = get_output_address() + '\\'
 df = get_csvfile(path)
 d = drc.Draco()
 renderer = AltairRenderer()
 input_spec_base = generate_spec_base(df)
+#recommendations = recommend_charts(spec=input_spec_base, draco=d, num=5)
+#display_debug_data(draco=d, specs=recommendations)
+# 其实看不懂debug的图表，但可以做测试
 n_marks, n_fields, n_encoding_channels = get_users_restriction()
 update_spec(n_marks, n_fields, n_encoding_channels)
-
-# C:\Users\27217\Documents\GitHub\testing-7-16-23\laofan\weather.csv
+#display_debug_data(draco=d, specs=recommendations)
+# C:\Users\27217\Documents\GitHub\testing-7-16-23\laofan\data\weather.csv
 # C:\Users\27217\Desktop\testing generate charts
 # point line bar
 # weather wind date
-# size color shape
