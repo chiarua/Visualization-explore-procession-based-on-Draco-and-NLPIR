@@ -1,0 +1,101 @@
+q1,q2,q3,q4,n1,n2,n3,n4,o1,o2,o3,o4,t1,t2,t3,t4
+3.02,1,-1,73,blue,dog,Seattle,home,6,sad,XS,light,03/04/2018,10/22/2017,01/28/2018,01/02/2018
+0.98,3,-1,78,red,fish,San Francisco,home,8,neutral,XL,light,03/05/2018,04/27/2017,01/21/2018,01/04/2018
+0.23,6,-1,8,green,dog,San Francisco,away,6,neutral,S,medium,03/03/2018,12/18/2017,01/14/2018,01/02/2018
+-1.15,1,-1,29,green,dog,San Francisco,away,8,sad,M,light,03/03/2018,01/21/2018,01/08/2018,01/04/2018
+1.35,1,-1,36,red,hamster,Seattle,away,4,neutral,L,dark,03/06/2018,04/21/2017,01/16/2018,01/01/2018
+-0.17,2,-1,67,blue,hamster,New York,home,4,happy,S,dark,03/06/2018,08/20/2017,01/12/2018,01/04/2018
+0.98,1,-1,8,red,cat,Seattle,away,4,happy,M,medium,03/07/2018,07/30/2017,01/23/2018,12/31/2017
+-1.57,5,-1,84,red,fish,New York,away,4,happy,M,light,03/03/2018,08/24/2017,01/27/2018,12/31/2017
+0.34,1,-1,78,green,dog,Seattle,home,4,happy,S,dark,03/09/2018,02/26/2018,01/21/2018,01/05/2018
+1.78,1,-1,71,red,cat,New York,away,8,neutral,L,dark,03/03/2018,10/16/2017,01/02/2018,01/04/2018
+-1.27,3,-1,99,red,hamster,San Francisco,away,2,happy,L,medium,03/07/2018,04/07/2017,01/24/2018,01/05/2018
+-0.87,2,-1,63,green,dog,New York,away,2,sad,XL,medium,03/07/2018,04/12/2017,01/26/2018,01/03/2018
+-0.64,2,-1,45,blue,hamster,New York,away,4,sad,XS,medium,03/09/2018,11/23/2017,01/30/2018,01/02/2018
+0.79,4,-1,76,green,hamster,Seattle,away,2,sad,M,light,03/07/2018,06/29/2017,01/14/2018,01/01/2018
+0.95,1,-1,75,green,cat,New York,away,2,neutral,L,light,03/07/2018,12/05/2017,01/04/2018,01/02/2018
+-0.65,1,-1,87,red,dog,Seattle,home,2,neutral,S,medium,03/04/2018,06/15/2017,01/18/2018,01/04/2018
+0.9,2,-1,19,green,hamster,San Francisco,home,8,sad,XL,light,03/06/2018,02/22/2018,01/15/2018,01/01/2018
+-0.51,3,-1,96,green,cat,San Francisco,away,6,happy,M,light,03/09/2018,05/12/2017,01/06/2018,01/04/2018
+0.52,2,-1,59,blue,hamster,Seattle,away,2,happy,L,light,03/04/2018,03/28/2017,01/08/2018,01/04/2018
+0.51,1,-1,85,blue,fish,New York,home,2,neutral,XS,light,03/05/2018,05/16/2017,01/11/2018,01/05/2018
+-0.2,1,-1,7,blue,hamster,San Francisco,home,4,neutral,XL,light,03/09/2018,12/14/2017,01/25/2018,01/05/2018
+-1.4,1,-1,73,green,fish,New York,home,2,sad,XS,light,03/06/2018,11/16/2017,01/08/2018,01/02/2018
+1.18,3,-1,98,red,dog,New York,home,6,sad,M,light,03/06/2018,09/08/2017,01/17/2018,01/01/2018
+-0.64,1,-1,92,green,cat,Seattle,home,8,sad,XS,medium,03/05/2018,10/26/2017,01/24/2018,01/05/2018
+-1.27,3,-1,3,blue,fish,San Francisco,away,4,neutral,L,medium,03/06/2018,11/20/2017,01/28/2018,01/05/2018
+-0.49,2,-1,76,green,dog,Seattle,home,8,happy,L,light,03/05/2018,09/30/2017,01/19/2018,01/03/2018
+-0.87,4,-1,29,blue,hamster,New York,home,8,sad,XS,dark,03/07/2018,02/04/2018,01/09/2018,12/31/2017
+-1.28,1,-1,58,red,fish,San Francisco,home,2,sad,L,light,03/03/2018,04/22/2017,01/12/2018,01/02/2018
+0.98,2,-1,66,green,cat,San Francisco,home,6,sad,M,dark,03/04/2018,02/03/2018,01/07/2018,01/02/2018
+-0.96,1,-1,28,green,dog,Seattle,home,6,happy,M,medium,03/06/2018,11/24/2017,01/22/2018,01/03/2018
+-0.5,1,-1,36,green,dog,Seattle,home,4,neutral,XL,medium,03/07/2018,06/15/2017,01/09/2018,01/01/2018
+1.2,1,-1,58,green,cat,San Francisco,home,8,neutral,S,dark,03/04/2018,03/29/2017,01/13/2018,01/02/2018
+0.2,2,-1,77,red,dog,New York,away,2,sad,L,dark,03/05/2018,03/14/2017,01/18/2018,01/03/2018
+0.25,2,-1,11,green,dog,San Francisco,home,2,sad,XL,medium,03/07/2018,01/20/2018,01/23/2018,01/02/2018
+1.09,1,-1,56,blue,dog,San Francisco,home,6,neutral,S,dark,03/04/2018,12/30/2017,01/19/2018,01/02/2018
+0.44,2,-1,64,green,dog,Seattle,away,4,neutral,M,dark,03/05/2018,12/10/2017,01/17/2018,01/01/2018
+0.02,3,-1,96,red,fish,New York,away,4,sad,M,light,03/07/2018,03/07/2017,01/27/2018,01/05/2018
+-0.24,4,-1,75,blue,dog,San Francisco,away,2,sad,M,dark,03/06/2018,02/24/2018,01/01/2018,01/04/2018
+0.4,6,-1,78,red,fish,New York,home,6,sad,XS,medium,03/09/2018,09/27/2017,01/25/2018,01/03/2018
+-1.14,4,-1,75,blue,dog,San Francisco,home,6,happy,M,medium,03/09/2018,06/18/2017,01/23/2018,01/02/2018
+0.07,1,-1,76,red,hamster,New York,away,2,neutral,XS,light,03/08/2018,09/15/2017,01/12/2018,01/04/2018
+-1.06,3,-1,87,red,hamster,New York,home,2,neutral,S,light,03/03/2018,07/04/2017,01/26/2018,01/01/2018
+-0.37,1,-1,99,red,dog,Seattle,away,6,happy,XL,medium,03/05/2018,10/17/2017,01/30/2018,01/01/2018
+0.06,2,-1,99,red,cat,San Francisco,home,4,happy,L,medium,03/07/2018,11/07/2017,01/16/2018,01/04/2018
+-0.59,1,-1,15,green,dog,New York,home,6,happy,S,medium,03/04/2018,07/08/2017,01/15/2018,01/01/2018
+-0.77,1,-1,5,blue,fish,Seattle,away,8,sad,S,medium,03/04/2018,05/28/2017,01/21/2018,01/03/2018
+-1.19,4,-1,56,blue,fish,Seattle,home,8,sad,S,medium,03/04/2018,07/26/2017,01/05/2018,01/05/2018
+-0.38,1,-1,74,green,dog,Seattle,away,4,neutral,M,dark,03/06/2018,08/07/2017,01/03/2018,01/03/2018
+1.33,1,-1,67,green,dog,San Francisco,home,6,happy,S,light,03/07/2018,10/07/2017,01/12/2018,01/01/2018
+-0.2,2,-1,21,green,cat,New York,home,8,sad,M,dark,03/03/2018,02/08/2018,01/24/2018,01/04/2018
+0.45,2,-1,60,red,hamster,San Francisco,home,4,sad,M,medium,03/03/2018,08/11/2017,01/12/2018,12/31/2017
+1.93,6,-1,6,blue,hamster,Seattle,away,4,happy,XS,dark,03/06/2018,05/30/2017,01/01/2018,01/03/2018
+0.64,1,-1,74,green,dog,Seattle,home,4,sad,XL,dark,03/07/2018,02/08/2018,01/09/2018,01/05/2018
+-0.99,3,-1,8,green,cat,New York,away,8,happy,M,medium,03/06/2018,04/21/2017,01/27/2018,01/01/2018
+1.76,2,-1,59,green,fish,Seattle,away,6,neutral,XL,medium,03/04/2018,10/19/2017,01/07/2018,01/02/2018
+0.55,1,-1,21,green,hamster,New York,home,4,neutral,S,light,03/03/2018,01/25/2018,01/18/2018,01/03/2018
+0.09,1,-1,95,red,hamster,New York,home,2,sad,XL,light,03/04/2018,08/20/2017,01/10/2018,01/02/2018
+0.45,3,-1,75,blue,cat,New York,away,8,neutral,XL,dark,03/04/2018,03/20/2017,01/30/2018,01/02/2018
+1.37,1,-1,63,blue,dog,Seattle,home,2,happy,S,light,03/07/2018,05/22/2017,01/10/2018,01/02/2018
+0.07,2,-1,72,blue,dog,Seattle,home,4,neutral,L,dark,03/07/2018,02/16/2018,01/08/2018,01/02/2018
+0.59,1,-1,25,blue,fish,Seattle,away,2,sad,S,dark,03/07/2018,09/20/2017,01/25/2018,01/04/2018
+2.11,2,-1,6,green,cat,San Francisco,away,6,sad,M,medium,03/06/2018,10/11/2017,01/08/2018,01/02/2018
+0.21,3,-1,75,red,fish,New York,away,8,sad,XS,dark,03/06/2018,03/05/2017,01/25/2018,01/01/2018
+-1.27,1,-1,3,blue,dog,New York,home,8,sad,M,medium,03/09/2018,04/11/2017,01/19/2018,01/01/2018
+-1.3,3,-1,30,blue,cat,Seattle,home,2,sad,XL,light,03/08/2018,05/17/2017,01/19/2018,01/04/2018
+0.09,1,-1,29,blue,fish,New York,away,4,neutral,XL,light,03/06/2018,11/09/2017,01/27/2018,01/04/2018
+0.35,2,-1,95,blue,hamster,San Francisco,home,4,neutral,XL,medium,03/09/2018,11/01/2017,01/15/2018,01/05/2018
+0.65,1,-1,4,blue,dog,San Francisco,away,8,neutral,XS,medium,03/06/2018,10/21/2017,01/20/2018,12/31/2017
+-0.84,2,-1,23,green,hamster,New York,away,8,neutral,S,medium,03/03/2018,05/10/2017,01/11/2018,12/31/2017
+-1.26,4,-1,92,blue,dog,Seattle,away,2,happy,M,light,03/08/2018,08/12/2017,01/02/2018,01/02/2018
+0.17,1,-1,92,blue,dog,San Francisco,home,4,sad,XL,dark,03/09/2018,12/23/2017,01/21/2018,01/02/2018
+0.75,1,-1,44,red,hamster,San Francisco,home,2,happy,L,dark,03/03/2018,12/16/2017,01/17/2018,01/04/2018
+2.08,1,-1,33,green,hamster,Seattle,away,4,neutral,L,light,03/03/2018,01/07/2018,01/19/2018,01/04/2018
+0.62,1,-1,88,red,dog,New York,home,2,neutral,S,light,03/08/2018,11/24/2017,01/29/2018,12/31/2017
+-1.54,1,-1,19,blue,cat,Seattle,home,2,neutral,XL,medium,03/04/2018,04/13/2017,01/30/2018,01/02/2018
+-0.4,2,-1,46,green,hamster,San Francisco,away,4,sad,XS,medium,03/07/2018,09/23/2017,01/03/2018,01/02/2018
+0.21,6,-1,75,red,hamster,Seattle,away,2,neutral,XL,light,03/03/2018,03/17/2017,01/05/2018,01/04/2018
+0.04,1,-1,53,green,cat,New York,away,6,happy,S,light,03/09/2018,04/29/2017,01/03/2018,01/01/2018
+-0.36,4,-1,72,green,fish,San Francisco,away,2,sad,S,light,03/04/2018,01/09/2018,01/21/2018,01/05/2018
+-1.6,1,-1,14,blue,hamster,New York,away,8,happy,L,light,03/03/2018,08/27/2017,01/09/2018,01/04/2018
+-0.67,1,-1,13,red,dog,New York,home,6,neutral,L,dark,03/03/2018,09/10/2017,01/05/2018,01/05/2018
+-0.51,2,-1,11,green,fish,San Francisco,away,2,neutral,XS,medium,03/07/2018,02/08/2018,01/09/2018,01/02/2018
+0.36,2,-1,85,red,dog,Seattle,away,6,happy,S,light,03/07/2018,05/18/2017,01/06/2018,01/05/2018
+-0.22,6,-1,16,blue,fish,New York,away,4,neutral,XL,light,03/08/2018,10/28/2017,01/16/2018,01/05/2018
+0.18,2,-1,34,blue,dog,San Francisco,away,4,happy,M,medium,03/05/2018,07/09/2017,01/23/2018,01/03/2018
+-1.71,2,-1,95,green,hamster,Seattle,home,6,neutral,S,medium,03/09/2018,07/17/2017,01/19/2018,12/31/2017
+1.48,2,-1,78,green,fish,San Francisco,home,8,sad,L,dark,03/08/2018,01/26/2018,01/07/2018,01/05/2018
+-0.53,1,-1,83,blue,cat,New York,home,8,happy,S,dark,03/04/2018,08/29/2017,01/08/2018,01/04/2018
+-0.1,2,-1,61,green,dog,New York,home,2,sad,XL,medium,03/03/2018,12/24/2017,01/21/2018,01/02/2018
+-0.58,3,-1,33,blue,cat,New York,away,6,happy,L,light,03/09/2018,08/01/2017,01/25/2018,01/02/2018
+1.24,2,-1,38,blue,cat,San Francisco,home,4,neutral,M,dark,03/05/2018,07/02/2017,01/03/2018,01/03/2018
+0.38,2,-1,36,red,dog,Seattle,home,6,sad,XS,light,03/03/2018,12/16/2017,01/04/2018,01/02/2018
+1.08,1,-1,16,green,cat,San Francisco,home,2,happy,M,light,03/09/2018,11/28/2017,01/24/2018,01/05/2018
+-0.8,4,-1,98,green,cat,San Francisco,home,4,happy,XL,medium,03/08/2018,03/04/2017,01/21/2018,01/02/2018
+-0.55,1,-1,91,red,fish,Seattle,home,6,sad,L,medium,03/06/2018,05/04/2017,01/21/2018,01/02/2018
+0.12,4,-1,59,blue,cat,Seattle,home,4,neutral,XL,dark,03/09/2018,11/02/2017,01/16/2018,01/01/2018
+2.16,1,-1,23,blue,fish,San Francisco,home,4,happy,L,medium,03/09/2018,08/24/2017,01/12/2018,01/01/2018
+-0.85,1,-1,1,blue,cat,San Francisco,home,4,happy,S,light,03/04/2018,07/03/2017,01/18/2018,01/04/2018
+0.61,3,-1,95,green,dog,New York,away,4,happy,S,dark,03/03/2018,07/17/2017,01/02/2018,12/31/2017
+-2.41,2,1,21,blue,hamster,New York,away,6,neutral,XL,light,03/03/2018,08/24/2017,01/27/2018,01/03/2018

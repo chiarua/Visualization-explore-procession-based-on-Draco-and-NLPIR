@@ -1,3 +1,4 @@
+
 # Suppressing warnings raised by altair in the background
 # (iteration-related deprecation warnings)
 import warnings
@@ -18,7 +19,6 @@ renderer = AltairRenderer()
 #df.head()
 
 #df.to_csv('weather.csv', index=False)
-
 
 def load_data(file_path):
     df=pd.read_csv(file_path)
@@ -109,15 +109,19 @@ def update_spec(new_marks,new_fields,new_encoding_channels):
 
 
 
-file_path=input("数据地址:")
-df=load_data(file_path)
+#file_path=input("数据地址:")
+#df=load_data(file_path)
+df=load_data('random_data.csv')
 input_spec_base=generate_spec_base(df)
 print("约束条件:")
 
-new_marks=input('marks:').split()
+#new_marks=input('marks:').split()
+new_marks=['point','bar','line']
 
 new_fields=input('fields:').split()
 
-new_encoding_channels=input('new_encoding_channels:').split()
+#new_encoding_channels=input('new_encoding_channels:').split()
+new_encoding_channels=['color','shape','size']
 update_spec(new_marks,new_fields,new_encoding_channels)
+
 
