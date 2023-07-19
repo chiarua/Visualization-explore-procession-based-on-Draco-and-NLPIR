@@ -58,7 +58,7 @@ def recommend_charts(
             #print('nihao'*10)
             chart = chart.configure_view(continuousWidth=130, continuousHeight=130)
         display(chart)
-        chart.save('chart'+str(k)+'.html')
+        chart.save('pictures\\'+'chart'+str(k)+'.html')
 
     return chart_specs
 
@@ -111,7 +111,7 @@ def update_spec(new_marks,new_fields,new_encoding_channels):
 
 #file_path=input("数据地址:")
 #df=load_data(file_path)
-df=load_data('random_data.csv')
+df=load_data('data\weball26.csv')
 input_spec_base=generate_spec_base(df)
 print("约束条件:")
 

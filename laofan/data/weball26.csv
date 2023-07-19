@@ -1,8 +1,8 @@
 candidate_identification,candidate_name,incumbent_challenger_status,party_code,party_affiliation,total_receipts,transfers_from_authorized_committees,total_disbursements,transfers_to_authorized_committees,beginning_cash,ending_cash,contributions_from_candidate,loans_from_candidate,other_loans,candidate_loan_repayments,other_loan_repayments,debts_owed_by,total_individual_contributions,candidate_state,candidate_district,contributions_from_other_political_committees,contributions_from_party_committees,coverage_end_date,refunds_to_individuals,refunds_to_committees
-H4AL03061,"SMITH, JESSE TREMAIN",C,1,DEM,3500,0,3500,0,0,0,3500,0,0,0,3500,0,0,AL,3,0,0,01/31/2015,0,0
+H4AL03061,"SMITH, JESSE TREMAIN",C,1,DEM,3500,1,3500,0,0,0,3500,0,0,0,3500,0,0,AL,3,1,0,01/31/2015,0,0
 H4AR02166,"REYNOLDS, CONRAD EARL",O,2,REP,0,0,0,0,0,0,0,0,0,0,0,0,0,AR,2,0,0,01/01/2015,0,0
 H0AZ01325,"TOBIN, ANDY HON.",C,2,REP,187.19,0,8352.74,0,8240.37,74.82,0,0,0,0,0,0,0,AZ,1,0,0,01/26/2015,0,0
-H0AZ04493,"CONTRERAS, JANET L",C,2,REP,0,0,0,0,0,0,0,0,0,0,0,25510,0,AZ,4,0,0,09/30/2015,0,0
+H0AZ04493,"CONTRERAS, JANET L",C,2,REP,0,0,0,0,0,0,0,0,1,0,0,25510,0,AZ,4,0,0,09/30/2015,0,0
 H4CA10075,"EGGMAN, MICHAEL RAY",C,1,DEM,104.26,0,3192.96,0,3088.7,0,0,0,0,0,0,0,0,CA,10,0,0,01/27/2015,0,0
 H4CA18094,"FOX, RICHARD B",C,2,REP,0,0,762.75,0,762.75,0,0,0,0,762.75,0,0,0,CA,18,0,0,01/26/2015,0,0
 H4CA21072,"RENTERIA, AMANDA",C,1,DEM,1901.71,0,36451.26,0,34549.55,0,1000,0,0,0,0,0,155,CA,21,0,0,01/31/2015,0,0
@@ -56,4 +56,4 @@ S4MA00259,"SKARIN, BRUCE",C,3,IND,401,0,530,0,143,13,0,375,0,0,0,0,26,MA,0,0,0,0
 S4NC00261,"D'ANNUNZIO, TIMOTHY BRUCE",C,2,REP,0,0,0,0,0,0,0,0,0,0,0,0,0,NC,0,0,0,01/21/2015,0,0
 S2NC00257,"HAUGH, SEAN",C,3,LIB,0,0,0,0,530,0,0,0,0,0,0,0,0,NC,0,0,0,01/29/2015,0,0
 S4NE00140,"DOMINA, DAVID A",O,1,DEM,2814,0,9507,0,6692,0,650,1000,0,38,0,0,351,NE,0,0,0,01/30/2015,0,0
-S4NE00165,"BUHRDORF, DANIEL JOHN",O,3,OTH,5675,0,5425,0,0,249,3205,0,0,0,0,0,5675,NE,0,0,0,10/15/2015,0,0
+S4NE00165,"BUHRDORF, DANIEL JOHN",O,3,OTH,5675,0,5425,0,0,249,3205,0,0,0,0,0,5675,NE,0,0,0,10/15/2015,0,1
