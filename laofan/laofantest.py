@@ -110,9 +110,9 @@ def update_spec(new_marks,new_fields,new_encoding_channels):
 
 
 
-#file_path=input("数据地址:")
-#df=load_data(file_path)
-df=load_data('data\\test.csv')
+file_path=input("数据地址:")
+df=load_data(file_path)
+#df=load_data('data\\test.csv')
 header=df.columns.tolist()
 input_spec_base=generate_spec_base(df)
 polar=0
@@ -125,7 +125,6 @@ new_marks=input('marks:').split()
 if new_marks==['pie']:
     polar=1
     new_marks=[]
-
 if polar:
     input_spec_base+=['attribute((view,coordinates),v0,polar).']
 if len(new_marks)==0:
