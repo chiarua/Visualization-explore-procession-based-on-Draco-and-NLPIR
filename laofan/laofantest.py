@@ -115,19 +115,33 @@ def update_spec(new_marks,new_fields,new_encoding_channels):
 df=load_data('data\\test.csv')
 header=df.columns.tolist()
 input_spec_base=generate_spec_base(df)
+polar=0
+x_and_y=0
 
 #recommend_charts(input_spec_base,draco=d)
 print("约束条件:")
 
 new_marks=input('marks:').split()
+if new_marks==['pie']:
+    polar=1
+    new_marks=[]
+
+if polar:
+    input_spec_base+=['attribute((view,coordinates),v0,polar).']
 if len(new_marks)==0:
-    new_marks=['point','bar','line','area','tick','rect']
+    new_marks=['point','bar','line','area','tick','rect'] if not polar else ['bar']
 
 new_fields=input('fields:').split()
+if len(new_fields)==3 and new_fields[1]=='and':
+    new_fields.remove(new_fields[1])
+    x_and_y=1
 if len(new_fields)==0:
     new_fields=header
 
 new_encoding_channels=input('new_encoding_channels:').split()
 if len(new_encoding_channels)==0:
-    new_encoding_channels=['color','shape','size','x','y']
+    new_encoding_channels=['color','shape','size','x','y'] if not polar else ['x']
+    if x_and_y:
+        new_encoding_channels=['x','y']
+print(new_marks,'\n',new_fields,'\n',new_encoding_channels)
 update_spec(new_marks,new_fields,new_encoding_channels)
