@@ -59,7 +59,7 @@ def recommend_charts(
             #print('nihao'*10)
             chart = chart.configure_view(continuousWidth=130, continuousHeight=130)
         display(chart)
-        chart.save('pictures\\'+'chart'+str(k+i)+'.html')
+        chart.save('D:\\testoutput\\'+'chart'+str(k+i)+'.html')
 
     return chart_specs
 
@@ -117,6 +117,7 @@ header=df.columns.tolist()
 input_spec_base=generate_spec_base(df)
 polar=0
 x_and_y=0
+categorical=1
 
 #recommend_charts(input_spec_base,draco=d)
 print("约束条件:")
@@ -127,6 +128,12 @@ if new_marks==['pie']:
     new_marks=[]
 if polar:
     input_spec_base+=['attribute((view,coordinates),v0,polar).']
+if categorical:
+    input_spec_base += [
+    'entity(scale,v0,7).',
+    'attribute((scale,channel),7,color).',
+    'attribute((scale,type),7,categorical).'
+        ]
 if len(new_marks)==0:
     new_marks=['point','bar','line','area','tick','rect'] if not polar else ['bar']
 
