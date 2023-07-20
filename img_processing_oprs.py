@@ -8,6 +8,8 @@ import warnings
 import os
 
 warnings.filterwarnings("ignore")
+
+
 # Suppressing warnings raised by altair in the background
 # (iteration-related deprecation warnings)
 
@@ -42,6 +44,7 @@ def recommend_charts(
 
     return chart_specs
 
+
 #
 def get_csvfile(file_path):
     df = pd.read_csv(file_path)
@@ -51,6 +54,7 @@ def get_csvfile(file_path):
 def get_jsonfile(file_path):
     df = pd.read_json(file_path)
     return df
+
 
 def get_output_address():
     address = input("Please input the address where you want the picture to be output: ")
@@ -86,13 +90,12 @@ def rec_from_generated_spec(
                 "entity(encoding,m0,e0).",
                 f"attribute((encoding,field),e0,{field}).",
                 f"attribute((encoding,channel),e0,{enc_ch}).",
-                #暂时去掉
+                # 暂时去掉
                 # filter out designs with less than 3 encodings
                 ":- {entity(encoding,_,_)} < 3.",
                 # exclude multi-layer designs
                 ":- {entity(mark,_,_)} != 1.",
             ],
-
         )
         for mark in marks
         for field in fields
@@ -140,7 +143,7 @@ def update_spec(new_marks, new_fields, new_encoding_channels):
         encoding_channels=new_encoding_channels,
         draco=d,
     )
-    #display_debug_data(draco=d, specs=recommendations)
+    # display_debug_data(draco=d, specs=recommendations)
 
 
 # Parameterized helper to avoid code duplication as we iterate on designs
@@ -176,3 +179,22 @@ def display_debug_data(draco: drc.Draco, specs: dict[str, dict]):
     )
     chart.save(output_path + 'debugchart' + str(count_files_in_directory(output_path)) + '.html')
 
+
+path = input("Please input the path of the csv file: ")
+output_path = get_output_address() + '\\'
+df = get_csvfile(path)
+d = drc.Draco()
+renderer = AltairRenderer()
+input_spec_base = generate_spec_base(df)
+# recommendations = recommend_charts(spec=input_spec_base, draco=d, num=5)
+# display_debug_data(draco=d, specs=recommendations)
+n_marks, n_fields, n_encoding_channels, polar = get_users_restriction(df)
+print(n_marks, n_fields, n_encoding_channels, polar)
+if polar:
+    input_spec_base.append('attribute((view,coordinates),v0,polar).')
+update_spec(n_marks, n_fields, n_encoding_channels)
+# display_debug_data(draco=d, specs=recommendations)
+# C:\Users\27217\Documents\GitHub\testing-7-16-23\laofan\data\weather.csv
+# C:\Users\27217\Desktop\testing generate charts
+# point line bar
+# weather wind date
