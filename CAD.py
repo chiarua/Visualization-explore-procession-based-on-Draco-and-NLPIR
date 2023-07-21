@@ -1,5 +1,30 @@
+import sys
+import pynlpir
+import importlib
+from Splitwords import test_module as split
+
 def get_users_restriction(df):
-    keywords=dict()
+    importlib.reload(sys)
+
+    pynlpir.open()
+
+    s=input('输入你的需求:')
+
+    pynlpir.nlpir.ImportUserDict('userdic.txt'.encode('utf-8'))
+
+    segments1 = pynlpir.segment(s.encode('utf-8'), pos_tagging=True, pos_english=True, pos_names=None)
+    segments2 = pynlpir.get_key_words(s.encode('utf-8'), weighted=True)
+
+    dict1 = split.build_dic(segments1)
+    dict2 = split.build_dic(segments2)
+    dict3 = split.rebuild_dic(dict1, dict2)
+
+    #字典合并
+    keywords={}
+    keywords.update(dict1)
+    keywords.update(dict2)
+    keywords.update(dict3)
+
     #有用的关键词
     keyword_map = {'颜色': 'color','渐变色':'color','形状': 'shape','型状':'shape','大小': 'size','点状图': 'point','点图':'point',
                    '散点图':'point','柱状图': 'bar','柱形图':'bar','柱型图':'bar','柱图':'bar','条形图':'bar','条型图':'bar','直方图':'bar',
