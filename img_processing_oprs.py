@@ -181,7 +181,6 @@ def get_users_restriction(df):
     new_marks = [i for i in lst if i in mark_type]
     new_encoding_channels = [i for i in lst if i in encoding_channel_type]
     new_fields = [i for i in fields_type if i in s]
-
     return [new_marks, new_fields, new_encoding_channels]
 
 
@@ -202,6 +201,7 @@ def select_restriction(df):
     if not new_encoding_channels:
         new_encoding_channels = ['color', 'shape', 'size', 'x']
 
+
     return [new_marks, new_fields, new_encoding_channels]
 
 
@@ -210,7 +210,7 @@ def chart_save(n: int, c: list):
     mark_limit = 5
     mark = defaultdict(int)
     i = 0
-    while i < n:
+    while i < n and c:
         if mark[c[0][2]] > mark_limit:
             c = c[1:]
             continue
@@ -230,13 +230,12 @@ input_spec_base = generate_spec_base(df)
 # recommendations = recommend_charts(spec=input_spec_base, draco=d, num=5)
 # display_debug_data(draco=d, specs=recommendations)
 n_marks, n_fields, n_encoding_channels = select_restriction(df)
-print(n_marks, n_fields, n_encoding_channels)
 charts = sorted(charts, key=lambda x: x[1])
 update_spec(n_marks, n_fields, n_encoding_channels)
-chart_save(25, charts)
+chart_save(100,charts)
 # display_debug_data(draco=d, specs=recommendations)
-# C:\Users\27217\Documents\GitHub\testing-7-16-23\testing\data\weather.csv
-# C:\Users\27217\Desktop\testing generate charts
+# C:\Users\y9270\PycharmProjects\pythonProject2\data\driving.csv
+# C:\Users\y9270\PycharmProjects\pythonProject2\Charts
 # point line bar
 # weather wind date
 # 我想要一张反映weather和wind关系的图
