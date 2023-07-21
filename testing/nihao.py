@@ -13,17 +13,11 @@ from pprint import pprint
 from draco.renderer import AltairRenderer
 d = drc.Draco()
 renderer = AltairRenderer()
+charts=[]
 
 
-df=pd.read_csv("data\\weather.csv")
 
 
-def generate_by_spec(spec):
-    for model in d.complete_spec(spec, 1):
-        spec = drc.answer_set_to_dict(model.answer_set)
-        chart = renderer.render(spec=spec, data=df)
-        chart.save('D:\\testoutput\\' + 'chart' + '.html')
-        return model.cost[0]
 
 
 # 绘制径向图
@@ -66,6 +60,9 @@ def pie_spec(field_name):
     f'attribute((field,type),{n},string).',
     'entity(view,root,0).',
     'attribute((view,coordinates),0,polar).',
+    'entity(scale,0,sc).',
+    'attribute((scale,channel),sc,color).',
+    'attribute((scale,type),sc,categorical).'  # 颜色变化的形式是明确变化
     'entity(mark,0,1).',
     'attribute((mark,type),1,bar).',
     'entity(encoding,1,2).',
@@ -225,7 +222,41 @@ def percentage_spec(type1,type2):
 
 
 
-spec=percentage_spec('temp_max','weather')
-generate_by_spec(spec)
+df=pd.read_csv("data\\weather.csv")
 
+def generate_by_spec(spec):
+    for model in d.complete_spec(spec, 1):
+        spec = drc.answer_set_to_dict(model.answer_set)
+        chart = renderer.render(spec=spec, data=df)
+        charts.append([chart,model.cost[0]])
+        print(model.cost[0])
+        return model.cost[0]
+
+def extra_recommend(new_fields):
+
+    A_fields,B_fields=[],[]
+    for i in range(len(new_fields)):
+        if df[new_fields[i]].nunique()<=10 and df[new_fields[i]].nunique()*5 < len(df[new_fields]):
+            A_fields.append(new_fields[i])
+        else:
+            B_fields.append(new_fields[i])
+    for field in A_fields:
+        generate_by_spec(pie_spec(field))
+        for value in B_fields:
+            generate_by_spec(percentage_spec(value,field))
+            if df[field].nunique() >=5:
+                generate_by_spec(radial_spec(field,value))
+
+
+
+
+
+extra_recommend(['precipitation','weather','wind'])
+print(charts)
+for i in range(len(charts)):
+    charts[i][0].save('D:\\testoutput\\' + 'chart'+str(i) + '.html')
+'''
+spec=percentage_spec('len','type')
+generate_by_spec(spec)
+'''
 
