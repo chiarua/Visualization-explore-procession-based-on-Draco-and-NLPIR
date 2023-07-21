@@ -24,24 +24,13 @@ def recommend_charts(
 ) -> dict[str, dict]:
     # Dictionary to store the generated recommendations, keyed by chart name
     chart_specs = {}
-    l=[]
-    for i, model in enumerate(draco.complete_spec(spec, num*100)):
-        if l:
-            l.append(model)
-            l.sort(key=lambda x: x.cost)
-            if len(l) > num:
-                l.pop()  
-        else:
-            l.append(model)
-
-    for i, model in enumerate(l):
+    for i, model in enumerate(draco.complete_spec(spec, num)):
         chart_name = labeler(i)
         spec = drc.answer_set_to_dict(model.answer_set)
         chart_specs[chart_name] = drc.dict_to_facts(spec)
 
         print(chart_name)
         print(f"COST: {model.cost}")
-
         chart = renderer.render(spec=spec, data=df)
         # Adjust column-faceted chart size
 
