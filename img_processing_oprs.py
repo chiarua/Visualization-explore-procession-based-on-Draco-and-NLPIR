@@ -40,7 +40,8 @@ def recommend_charts(
         ):
             chart = chart.configure_view(continuousWidth=130, continuousHeight=130)
         display(chart)
-        chart.save(output_path + 'rec_ch' + str(count_files_in_directory(output_path)) + '.html')
+        charts.append([chart,cost])
+
 
     return chart_specs
 
@@ -229,7 +230,14 @@ def select_restriction(df):
     return [new_marks, new_fields, new_encoding_channels]
 
 
+# 保存函数(按照cost)
+def chart_save():
+    for c in charts:
+        c.save(output_path + 'rec_ch' + str(count_files_in_directory(output_path)) + '.html')
+
 path = input("Please input the path of the csv file: ")
+charts=[]
+charts=sorted(charts,key= lambda x : x[1])
 output_path = get_output_address() + '\\'
 df = get_csvfile(path)
 d = drc.Draco()
