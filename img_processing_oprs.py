@@ -110,7 +110,7 @@ def rec_from_generated_spec(
 
     return recs
 
-
+'''
 # 生成饼图的输入函数
 def get_users_restriction(df):
     print("Please input your restriction:")
@@ -133,7 +133,7 @@ def get_users_restriction(df):
         if x_and_y:
             new_encoding_channels = ['x', 'y']
     return [new_marks, new_fields, new_encoding_channels, polar]
-
+'''
 
 # 用户输入约束条件的推荐函数
 def update_spec(new_marks, new_fields, new_encoding_channels):
@@ -178,6 +178,55 @@ def display_debug_data(draco: drc.Draco, specs: dict[str, dict]):
         plot_size=plot_size,
     )
     chart.save(output_path + 'debugchart' + str(count_files_in_directory(output_path)) + '.html')
+
+
+def get_users_restriction(df):
+    s = input('输入你的需求:')
+
+    # 有用的关键词
+    keyword_map = {'颜色': 'color', '渐变色': 'color', '形状': 'shape', '型状': 'shape', '大小': 'size',
+                   '点状图': 'point', '点图': 'point',
+                   '散点图': 'point', '柱状图': 'bar', '柱形图': 'bar', '柱型图': 'bar', '柱图': 'bar', '条形图': 'bar',
+                   '条型图': 'bar', '直方图': 'bar',
+                   '条图': 'bar', '折线图': 'line', '线图': 'line', '趋势': 'line', '走势': 'line', '区域图': 'area',
+                   '刻度图': 'tick', '矩形图': 'rect',
+                   '饼图': 'pie', '饼状图': 'pie', '圆图': 'pie', '圆饼图': 'pie', '圆形图': 'pie', '圆型图': 'pie',
+                   '增长': 'line', '减少': 'line',
+                   '上升': 'line', '下降': 'line', '快': 'line', '慢': 'line', '好': 'line', '坏': 'line', '差': 'line',
+                   '高': 'line', '低': 'line'}
+
+    # 参数分类
+    mark_type = ['bar', 'point', 'line', 'area', 'tick', 'rect', 'pie']
+    encoding_channel_type = ['color', 'shape', 'size']
+    fields_type = df.columns.tolist()
+
+    # 生成总参数列表后分类
+    lst = [keyword_map[key] for key in keyword_map.keys() if key in s]
+    new_marks = [i for i in lst if i in mark_type]
+    new_encoding_channels = [i for i in lst if i in encoding_channel_type]
+    new_fields = [i for i in fields_type if i in s]
+
+    return [new_marks, new_fields, new_encoding_channels]
+
+
+def select_restriction(df):
+    new_marks, new_fields, new_encoding_channels = get_users_restriction(df)
+    # 去重
+    new_marks = list(set(new_marks))
+    new_encoding_channels = list(set(new_encoding_channels))
+    # 设置默认参数
+    # 这样设置是不行的，需要对这里或者cost进行修改，不然出垃圾
+    if not new_marks:
+        new_marks = ['point', 'bar', 'line', 'area', 'tick', 'rect']
+
+    if not new_fields:
+        new_fields = df.columns.tolist()
+
+    # 设置默认参数
+    if not new_encoding_channels:
+        new_encoding_channels = ['color', 'shape', 'size', 'x', 'y']
+
+    return [new_marks, new_fields, new_encoding_channels]
 
 
 path = input("Please input the path of the csv file: ")
