@@ -6,6 +6,7 @@ import altair as alt
 from draco.renderer import AltairRenderer
 import warnings
 import os
+from collections import defaultdict
 
 warnings.filterwarnings("ignore")
 
@@ -20,7 +21,7 @@ def count_files_in_directory(directory_path):
 
 # 推荐函数
 def recommend_charts(
-        spec: list[str], draco: drc.Draco, num: int = 5, labeler=lambda i: f"CHART {i + 1}"
+        cfg:list, spec: list[str], draco: drc.Draco, num: int = 5, labeler=lambda i: f"CHART {i + 1}"
 ) -> dict[str, dict]:
     # Dictionary to store the generated recommendations, keyed by chart name
     chart_specs = {}
@@ -40,13 +41,11 @@ def recommend_charts(
         ):
             chart = chart.configure_view(continuousWidth=130, continuousHeight=130)
         display(chart)
-        charts.append([chart,cost])
-
+        charts.append([chart, model.cost, cfg[0], ','.join(cfg)])
 
     return chart_specs
 
 
-#
 def get_csvfile(file_path):
     df = pd.read_csv(file_path)
     return df
@@ -107,34 +106,10 @@ def rec_from_generated_spec(
     for cfg, spec in input_specs:
         # k += 1
         labeler = lambda i: f"CHART {i + 1} ({' | '.join(cfg)})"
-        recs = recs | recommend_charts(spec=spec, draco=draco, num=num, labeler=labeler)
+        recs = recs | recommend_charts(cfg=cfg, spec=spec, draco=draco, num=num, labeler=labeler)
 
     return recs
 
-'''
-# 生成饼图的输入函数
-def get_users_restriction(df):
-    print("Please input your restriction:")
-    new_marks = input('marks:').split()
-    polar = new_marks == ['pie']
-    if polar:
-        new_marks = []
-    print(polar)
-    if not new_marks:
-        new_marks = ['point', 'bar', 'line', 'area', 'tick', 'rect'] if not polar else ['bar']
-    new_fields = input('fields:').split()
-    x_and_y = len(new_fields) == 3 and new_fields[1] == 'and'
-    if x_and_y:
-        new_fields.remove('and')
-    if not new_fields:
-        new_fields = df.columns.tolist()
-    new_encoding_channels = input('new_encoding_channels:').split()
-    if not new_encoding_channels:
-        new_encoding_channels = ['color', 'shape', 'size', 'x', 'y'] if not polar else ['x']
-        if x_and_y:
-            new_encoding_channels = ['x', 'y']
-    return [new_marks, new_fields, new_encoding_channels, polar]
-'''
 
 # 用户输入约束条件的推荐函数
 def update_spec(new_marks, new_fields, new_encoding_channels):
@@ -225,19 +200,28 @@ def select_restriction(df):
 
     # 设置默认参数
     if not new_encoding_channels:
-        new_encoding_channels = ['color', 'shape', 'size', 'x', 'y']
+        new_encoding_channels = ['color', 'shape', 'size', 'x']
 
     return [new_marks, new_fields, new_encoding_channels]
 
 
 # 保存函数(按照cost)
-def chart_save():
-    for c in charts:
-        c.save(output_path + 'rec_ch' + str(count_files_in_directory(output_path)) + '.html')
+def chart_save(n: int, c: list):
+    mark_limit = 5
+    mark = defaultdict(int)
+    i = 0
+    while i < n:
+        if mark[c[0][2]] > mark_limit:
+            c = c[1:]
+            continue
+        i += 1
+        c[0][0].save(output_path + c[0][3] + '.html')
+        mark[c[0][2]] += 1
+        c = c[1:]
+
 
 path = input("Please input the path of the csv file: ")
-charts=[]
-charts=sorted(charts,key= lambda x : x[1])
+charts = []
 output_path = get_output_address() + '\\'
 df = get_csvfile(path)
 d = drc.Draco()
@@ -245,13 +229,14 @@ renderer = AltairRenderer()
 input_spec_base = generate_spec_base(df)
 # recommendations = recommend_charts(spec=input_spec_base, draco=d, num=5)
 # display_debug_data(draco=d, specs=recommendations)
-n_marks, n_fields, n_encoding_channels, polar = get_users_restriction(df)
-print(n_marks, n_fields, n_encoding_channels, polar)
-if polar:
-    input_spec_base.append('attribute((view,coordinates),v0,polar).')
+n_marks, n_fields, n_encoding_channels = select_restriction(df)
+print(n_marks, n_fields, n_encoding_channels)
+charts = sorted(charts, key=lambda x: x[1])
 update_spec(n_marks, n_fields, n_encoding_channels)
+chart_save(25, charts)
 # display_debug_data(draco=d, specs=recommendations)
-# C:\Users\27217\Documents\GitHub\testing-7-16-23\laofan\data\weather.csv
+# C:\Users\27217\Documents\GitHub\testing-7-16-23\testing\data\weather.csv
 # C:\Users\27217\Desktop\testing generate charts
 # point line bar
 # weather wind date
+# 我想要一张反映weather和wind关系的图
