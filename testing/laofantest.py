@@ -1,6 +1,7 @@
 
 # Suppressing warnings raised by altair in the background
 # (iteration-related deprecation warnings)
+from draco import dict_to_facts, answer_set_to_dict, run_clingo
 import warnings
 from draco.renderer import AltairRenderer
 warnings.filterwarnings("ignore")
@@ -11,14 +12,11 @@ import draco as drc
 import pandas as pd
 from vega_datasets import data as vega_data
 import altair as alt
-#引入draco和渲染器
 d = drc.Draco()
 renderer = AltairRenderer()
+charts=[]
 #载入数据
-#df: pd.DataFrame = vega_data.seattle_weather()
-#df.head()
 
-#df.to_csv('weather.csv', index=False)
 
 def load_data(file_path):
     df=pd.read_csv(file_path)
@@ -44,6 +42,8 @@ def recommend_charts(
     print('running')
     chart_specs = {}
     for i, model in enumerate(draco.complete_spec(spec, num)):
+        if model.cost[0]>40:
+            continue
         chart_name = labeler(i)
         spec = drc.answer_set_to_dict(model.answer_set)
         chart_specs[chart_name] = drc.dict_to_facts(spec)
@@ -59,7 +59,8 @@ def recommend_charts(
             #print('nihao'*10)
             chart = chart.configure_view(continuousWidth=130, continuousHeight=130)
         display(chart)
-        chart.save('D:\\testoutput\\'+'chart'+str(k+i)+'.html')
+        charts.append([chart.copy(),model.cost[0]])
+        #chart.save('D:\\testoutput\\'+'chart'+str(k+i)+'.html')
 
     return chart_specs
 
@@ -107,10 +108,12 @@ def update_spec(new_marks,new_fields,new_encoding_channels):
         encoding_channels=new_encoding_channels,
         draco=d,
     )
-
+##########################################################################################################
 
 
 file_path=input("数据地址:")
+if file_path=='':
+    file_path='data\\weather.csv'
 df=load_data(file_path)
 #df=load_data('data\\test.csv')
 header=df.columns.tolist()
@@ -151,3 +154,68 @@ if len(new_encoding_channels)==0:
         new_encoding_channels=['x','y']
 print(new_marks,'\n',new_fields,'\n',new_encoding_channels)
 update_spec(new_marks,new_fields,new_encoding_channels)
+
+
+charts=sorted(charts,key= lambda x:x[1])
+for i in range(len(charts)):
+    charts[i][0].save('D:\\testoutput\\'+'chart'+str(i)+'.html')
+
+def pie_spec(field_name):
+    n=field_name
+    spec=[
+        'attribute(number_rows,root,20000).',
+        f'entity(field,root,{n}).',
+        f'attribute((field,name),{n},{n}).',
+        f'attribute((field,type),{n},string).',
+        'entity(view,root,0).',
+        'attribute((view,coordinates),0,polar).',
+        'entity(mark,0,1).',
+        'attribute((mark,type),1,bar).',
+        'entity(encoding,1,2).',
+        'attribute((encoding,channel),2,y).',
+        'attribute((encoding,aggregate),2,count).',
+        'attribute((encoding,stack),2,zero).',
+        'entity(encoding,1,3).',
+        'attribute((encoding,channel),3,color).',
+        f'attribute((encoding,field),3,{n}).'
+    ]
+    return spec
+def generate_by_spec(spec):
+    for model in run_clingo(spec):
+         answer_set = model.answer_set
+         dic = drc.answer_set_to_dict(answer_set)
+         chart=renderer.render(dic,df)
+         chart.save('output_path')
+
+#绘制径向图
+def radial_spec(file_name,value):
+    n= file_name
+    c=value
+    spec=['attribute(number_rows,root,20000).',
+     f'entity(field,root,{c}).',
+     f'attribute((field,name),{c},{c}).',
+     f'attribute((field,type),{c},number).',
+     f'entity(field,root,{n}).',
+     f'attribute((field,name),{n},{n}).',
+     f'attribute((field,type),{n},string).',
+     'entity(view,root,0).',
+     'attribute((view,coordinates),0,polar).',
+     'entity(mark,0,1).',
+     'attribute((mark,type),1,bar).',
+     'entity(encoding,1,2).',
+     'attribute((encoding,channel),2,x).',
+     f'attribute((encoding,field),2,{n}).',
+     'entity(encoding,1,3).',
+     'attribute((encoding,channel),3,y).',
+     f'attribute((encoding,field),3,{c}).',
+     'attribute((encoding,aggregate),3,mean).',
+     'entity(scale,0,4).',
+     'attribute((scale,channel),4,x).',
+     'attribute((scale,type),4,ordinal).',
+     'entity(scale,0,5).',
+     'attribute((scale,channel),5,y).',
+     'attribute((scale,type),5,linear).',
+     'attribute((scale,zero),5,true).']
+    return spec
+
+
