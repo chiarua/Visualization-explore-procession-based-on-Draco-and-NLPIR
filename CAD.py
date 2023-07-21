@@ -35,12 +35,13 @@ def get_users_restriction(df):
     #参数分类
     mark_type=['bar','point','line','area','tick','rect','pie']
     encoding_channel_type=['color','shape','size']
+    fields_type=df.columns.tolist()
 
     #生成总参数列表后分类
     lst = [keywords[key] for key in keywords if key in keyword_map]
     new_marks=[i for i in lst if i in mark_type]
     new_encoding_channels=[i for i in lst if i in  encoding_channel_type]
-    new_fields = input('fields:').split()
+    new_fields = [i for i in fields_type if i in s]
 
     #判断是否是饼图
     polar = 'pie' in new_marks
