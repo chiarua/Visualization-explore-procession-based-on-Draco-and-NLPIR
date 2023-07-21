@@ -163,7 +163,7 @@ for i in range(len(charts)):
 def pie_spec(field_name):
     n=field_name
     spec=[
-        'attribute(number_rows,root,1461).',
+        'attribute(number_rows,root,20000).',
         f'entity(field,root,{n}).',
         f'attribute((field,name),{n},{n}).',
         f'attribute((field,type),{n},string).',
@@ -186,4 +186,36 @@ def generate_by_spec(spec):
          dic = drc.answer_set_to_dict(answer_set)
          chart=renderer.render(dic,df)
          chart.save('output_path')
+
+#绘制径向图
+def radial_spec(file_name,value):
+    n= file_name
+    c=value
+    spec=['attribute(number_rows,root,20000).',
+     f'entity(field,root,{c}).',
+     f'attribute((field,name),{c},{c}).',
+     f'attribute((field,type),{c},number).',
+     f'entity(field,root,{n}).',
+     f'attribute((field,name),{n},{n}).',
+     f'attribute((field,type),{n},string).',
+     'entity(view,root,0).',
+     'attribute((view,coordinates),0,polar).',
+     'entity(mark,0,1).',
+     'attribute((mark,type),1,bar).',
+     'entity(encoding,1,2).',
+     'attribute((encoding,channel),2,x).',
+     f'attribute((encoding,field),2,{n}).',
+     'entity(encoding,1,3).',
+     'attribute((encoding,channel),3,y).',
+     f'attribute((encoding,field),3,{c}).',
+     'attribute((encoding,aggregate),3,mean).',
+     'entity(scale,0,4).',
+     'attribute((scale,channel),4,x).',
+     'attribute((scale,type),4,ordinal).',
+     'entity(scale,0,5).',
+     'attribute((scale,channel),5,y).',
+     'attribute((scale,type),5,linear).',
+     'attribute((scale,zero),5,true).']
+    return spec
+
 
