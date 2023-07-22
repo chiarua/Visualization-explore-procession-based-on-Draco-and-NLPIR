@@ -1,7 +1,6 @@
 from IPython.display import display, Markdown
 import draco as drc
 import pandas as pd
-from vega_datasets import data as vega_data
 import altair as alt
 from draco.renderer import AltairRenderer
 import warnings
@@ -208,7 +207,7 @@ def select_restriction(df):
 
 # 保存函数(按照cost)
 def chart_save(n: int, c: list):
-    mark_limit = 5
+    mark_limit = 3
     mark = defaultdict(int)
     i = 0
     while i < n and c:
