@@ -231,7 +231,7 @@ input_spec_base = generate_spec_base(df)
 n_marks, n_fields, n_encoding_channels = select_restriction(df)
 charts = sorted(charts, key=lambda x: x[1])
 update_spec(n_marks, n_fields, n_encoding_channels)
-ASPs.get_extra_charts(charts, n_fields, df)
+# ASPs.get_extra_charts(charts, n_fields, df)
 chart_save(100, charts)
 # display_debug_data(draco=d, specs=recommendations)
 # C:\Users\27217\Documents\GitHub\testing-7-16-23\testing\data\weather.csv
