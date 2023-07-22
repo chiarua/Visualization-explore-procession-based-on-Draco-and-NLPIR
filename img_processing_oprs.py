@@ -232,7 +232,8 @@ input_spec_base = generate_spec_base(df)
 n_marks, n_fields, n_encoding_channels = select_restriction(df)
 charts = sorted(charts, key=lambda x: x[1])
 update_spec(n_marks, n_fields, n_encoding_channels)
-chart_save(100,charts)
+ASPs.get_extra_charts(charts, n_fields)
+chart_save(100, charts)
 # display_debug_data(draco=d, specs=recommendations)
 # C:\Users\y9270\PycharmProjects\pythonProject2\data\driving.csv
 # C:\Users\y9270\PycharmProjects\pythonProject2\Charts
