@@ -41,7 +41,7 @@ with st.sidebar:
             df = load_data(input_file)
             st.write(df)
 
-ipo.f(input_NL,input_file)
+ipo.f(input_NL,input_file,num)
 
 with open("html\h.html","r") as f:
     h=f.read()

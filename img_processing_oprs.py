@@ -219,8 +219,8 @@ def chart_save(n: int, c: list):
         mark[c[0][2]] += 1
         c = c[1:]
 
-def f(s,file):
-    #s是输入需求，file是csv文件，把输出图按h1,h2....html保存到\html中。
+def f(s,file,num):
+    #s是输入需求，file是csv文件，num是生成数量，把输出图按h1,h2....html保存到\html中。
     pass
 
 if __name__ == "__main__":
