@@ -4,6 +4,8 @@ import streamlit as st
 from streamlit_modal import Modal
 import streamlit.components.v1 as components
 
+import img_processing_oprs as ipo
+
 @st.cache_data
 def load_data(innput_file):
     df=pd.read_csv(input_file)

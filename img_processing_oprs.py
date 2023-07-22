@@ -220,22 +220,25 @@ def chart_save(n: int, c: list):
         mark[c[0][2]] += 1
         c = c[1:]
 
+def f(s,file):
+    pass
 
-path = input("Please input the path of the csv file: ")
-charts = []
-output_path = get_output_address() + '\\'
-df = get_csvfile(path)
-d = drc.Draco()
-renderer = AltairRenderer()
-input_spec_base = generate_spec_base(df)
-n_marks, n_fields, n_encoding_channels = select_restriction(df)
-charts = sorted(charts, key=lambda x: x[1])
-update_spec(n_marks, n_fields, n_encoding_channels)
-# ASPs.get_extra_charts(charts, n_fields, df)
-chart_save(100, charts)
-# display_debug_data(draco=d, specs=recommendations)
-# C:\Users\27217\Documents\GitHub\testing-7-16-23\testing\data\weather.csv
-# C:\Users\27217\Desktop\testing generate charts
-# point line bar
-# weather wind date
-# 我想要一张反映weather和wind关系的图
+if __name__ == "__main__":
+    path = input("Please input the path of the csv file: ")
+    charts = []
+    output_path = get_output_address() + '\\'
+    df = get_csvfile(path)
+    d = drc.Draco()
+    renderer = AltairRenderer()
+    input_spec_base = generate_spec_base(df)
+    n_marks, n_fields, n_encoding_channels = select_restriction(df)
+    charts = sorted(charts, key=lambda x: x[1])
+    update_spec(n_marks, n_fields, n_encoding_channels)
+    # ASPs.get_extra_charts(charts, n_fields, df)
+    chart_save(100, charts)
+    # display_debug_data(draco=d, specs=recommendations)
+    # C:\Users\27217\Documents\GitHub\testing-7-16-23\testing\data\weather.csv
+    # C:\Users\27217\Desktop\testing generate charts
+    # point line bar
+    # weather wind date
+    # 我想要一张反映weather和wind关系的图
