@@ -214,20 +214,17 @@ def percentage_spec(type1, type2):
     return spec
 
 
-df = pd.read_csv("data\\weather.csv")
-
-
-def generate_by_spec(spec, charts):
+def generate_by_spec(spec, charts, df, mark: str, field: str):
     d = drc.Draco
     renderer = AltairRenderer
     for model in d.complete_spec(spec, 1):
         spec = drc.answer_set_to_dict(model.answer_set)
         chart = renderer.render(spec=spec, data=df)
-        charts.append([chart, model.cost[0], ])
+        charts.append([chart, model.cost[0], mark, [mark, field]])
         return model.cost[0]
 
 
-def extra_recommend(new_fields, charts):
+def extra_recommend(new_fields, charts, df):
     A_fields, B_fields = [], []
     for i in range(len(new_fields)):
         if df[new_fields[i]].nunique() <= 10 and df[new_fields[i]].nunique() * 5 < len(df[new_fields]):
@@ -235,13 +232,13 @@ def extra_recommend(new_fields, charts):
         else:
             B_fields.append(new_fields[i])
     for field in A_fields:
-        generate_by_spec(pie_spec(field), charts)
+        generate_by_spec(pie_spec(field), charts, df, 'pie', field)
         for value in B_fields:
-            generate_by_spec(percentage_spec(value, field), charts)
+            generate_by_spec(percentage_spec(value, field), charts, df, 'percentage', field)
             if df[field].nunique() >= 5:
-                generate_by_spec(radial_spec(field, value), charts)
+                generate_by_spec(radial_spec(field, value), charts, df, 'radial', field)
 
 
-def get_extra_charts(charts: list, field: list):
-    extra_recommend(field, charts)
+def get_extra_charts(charts: list, field: list, df: pd.DataFrame):
+    extra_recommend(field, charts, df)
     return charts
