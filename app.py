@@ -35,7 +35,7 @@ with st.sidebar:
     if input_file is None:
         st.stop()
     else:
-        num = st.slider('生成数量', 0, 20, 5)
+        num = st.slider('生成数量', 1, 20, 1)
         if st.checkbox('显示数据'):
             st.subheader('数据')
             df = load_data(input_file)
@@ -43,9 +43,13 @@ with st.sidebar:
 
 ipo.f(input_NL,input_file,num)
 
-with open("html\h.html","r") as f:
-    h=f.read()
-    components.html(h,height=600)
+cols = st.columns(num)
+
+for i,col in enumerate(cols):
+    with col:
+        with open(f"html/h{i}.html","r") as f:
+            h=f.read()
+            components.html(h)
 
 # submit_button3 = st.button('开始生成',key='button3')
 # if submit_button3:
