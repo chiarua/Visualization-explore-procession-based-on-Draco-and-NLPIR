@@ -215,12 +215,12 @@ def percentage_spec(type1, type2):
 
 
 def generate_by_spec(spec, charts, df, mark: str, field: str):
-    d = drc.Draco
-    renderer = AltairRenderer
+    d = drc.Draco()
+    renderer = AltairRenderer()
     for model in d.complete_spec(spec, 1):
         spec = drc.answer_set_to_dict(model.answer_set)
         chart = renderer.render(spec=spec, data=df)
-        charts.append([chart, model.cost[0], mark, [mark, field]])
+        charts.append([chart, model.cost[0], mark, ','.join([mark, field])])
         return model.cost[0]
 
 
