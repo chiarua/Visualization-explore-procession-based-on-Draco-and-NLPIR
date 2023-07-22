@@ -7,7 +7,7 @@ import streamlit.components.v1 as components
 import img_processing_oprs as ipo
 
 @st.cache_data
-def load_data(innput_file):
+def load_data(input_file):
     df=pd.read_csv(input_file)
     return df
 
@@ -40,6 +40,8 @@ with st.sidebar:
             st.subheader('数据')
             df = load_data(input_file)
             st.write(df)
+
+ipo.f(input_NL,input_file)
 
 with open("html\h.html","r") as f:
     h=f.read()

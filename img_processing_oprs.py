@@ -220,6 +220,7 @@ def chart_save(n: int, c: list):
         c = c[1:]
 
 def f(s,file):
+    #s是输入需求，file是csv文件，把输出图按h1,h2....html保存到\html中。
     pass
 
 if __name__ == "__main__":
