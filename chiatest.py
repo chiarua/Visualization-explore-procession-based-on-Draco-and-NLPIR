@@ -1,11 +1,12 @@
 from IPython.display import display, Markdown
 import draco as drc
 import pandas as pd
-from vega_datasets import data as vega_data
 import altair as alt
 from draco.renderer import AltairRenderer
 import warnings
 import os
+from collections import defaultdict
+from testing import ASPs
 
 warnings.filterwarnings("ignore")
 
