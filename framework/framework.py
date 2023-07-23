@@ -2,7 +2,7 @@ import time
 import pandas as pd
 import streamlit as st
 import streamlit.components.v1 as components
-#import img_processing_oprs as ipo
+import img_processing_oprs as ipo
 
 @st.cache_data
 def load_data(input_file):
@@ -27,6 +27,7 @@ with st.sidebar:
     if input_file is None:
         st.stop()
 
+
     num = st.slider('生成数量', 0, 20, 5)
     if st.checkbox('显示数据'):
         st.subheader('数据')
@@ -35,18 +36,14 @@ with st.sidebar:
 
     submit_button2 = st.button('开始生成', key='button2')
 
+
 if submit_button2:
     with st.spinner('Wait for it...'):
-        time.sleep(3)
+        ipo.f(input_NL, input_file, num, 'C:\\Users\\LQY\\PycharmProjects\\pythonProject\\practice')
+        time.sleep(1)
 
-    flag = 0
-    for i in range(11, 17, 1):
-        flag += 1
-        if flag > num:
-            break
-
-        with open(f'.\\rec_ch{i}.html', "r") as f:
-            h = f.read()
-            components.html(h,height=400)
+    with open(f'C:\\Users\\LQY\\PycharmProjects\\pythonProject\\1.html', "r") as f:
+        h = f.read()
+        components.html(h, height=400)
 
 
