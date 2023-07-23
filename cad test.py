@@ -40,7 +40,7 @@ class ImgOpr:
 
             print(chart_name)
             print(f"COST: {model.cost}")
-            chart = self.renderer.render(spec=spec, data=df)
+            chart = self.renderer.render(spec=spec, data=self.df)
             # Adjust column-faceted chart size
 
             if (
@@ -110,7 +110,7 @@ class ImgOpr:
         return recs
 
     def update_spec(self):
-        recommendations = rec_from_generated_spec(
+        recommendations = self.rec_from_generated_spec(
             marks=self.new_marks,
             fields=self.new_fields,
             encoding_channels=self.new_encoding_channels,
@@ -146,9 +146,9 @@ class ImgOpr:
             violated_prefs_only=True,
             plot_size=plot_size,
         )
-        chart.save(self.output_path + 'debugchart' + str(self.count_files_in_directory(output_path)) + '.html')
+        chart.save(self.output_path + 'debugchart' + str(self.count_files_in_directory(self.output_path)) + '.html')
 
-    def get_users_restriction(delf):
+    def get_users_restriction(self):
         s = input('输入你的需求:')
 
         # 有用的关键词
@@ -212,7 +212,7 @@ class ImgOpr:
 
 test=ImgOpr()
 test.get_path()
-test.charts = sorted(charts, key=lambda x: x[1])
+test.charts = sorted(test.charts, key=lambda x: x[1])
 test.update_spec()
 test.chart_save(100)
 
