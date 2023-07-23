@@ -3,6 +3,7 @@ import pandas as pd
 import streamlit as st
 from streamlit_modal import Modal
 import streamlit.components.v1 as components
+from pathlib import Path
 
 import img_processing_oprs as ipo
 
@@ -20,7 +21,7 @@ def load_data(input_file):
 #     st.session_state["confirm"] = True
 
 
-st.title("可视化推荐")
+st.subheader("可视化推荐")
 st.divider()
 
 with st.sidebar:
@@ -41,16 +42,46 @@ with st.sidebar:
             df = load_data(input_file)
             st.write(df)
 
-ipo.f(input_NL,input_file,num)
+def delete_all_files_in_folder(folder_path):
+    folder_path = Path(folder_path)
 
-cols = st.columns(num)
+    for file_path in folder_path.glob("**/*"):
+        if file_path.is_file():
+            try:
+                file_path.unlink()  # 删除文件
+            except OSError as e:
+                print(f"无法删除文件 '{file_path}'。错误信息：{e}")
 
-for i,col in enumerate(cols):
-    with col:
-        with open(f"html/h{i}.html","r") as f:
+def process_html_files(folder_path):
+
+    folder_path = Path(folder_path)
+
+    l=[]
+
+    for file_path in folder_path.glob("**/*.html"):
+        with open(file_path,"r") as f:
             h=f.read()
-            components.html(h)
+            l.append(h)
+    return l
 
+delete_all_files_in_folder(f"{Path.cwd()}/html/")
+ipo.f(input_NL,input_file,num,f"{Path.cwd()}/html/")
+html_list = process_html_files(f"{Path.cwd()}/html/")
+
+# cols = st.columns(num)
+# for i,col in enumerate(cols):
+#     with col:
+#         for i in process_html_files(f"{Path.cwd()}/html/"):
+#             components.html(i,height=400,width=600)
+
+tabs = st.tabs([str(i) for i in range(num)])
+# for i,tab in enumerate(tabs):
+#     with tab:
+#         st.header("A cat")
+for i,h in enumerate(html_list):
+    st.write(i,len(html_list),len(tabs))
+    with tabs[i]:
+        components.html(h,height=400,width=600)
 # submit_button3 = st.button('开始生成',key='button3')
 # if submit_button3:
 #     with modal1.container():

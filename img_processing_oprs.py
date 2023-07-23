@@ -21,9 +21,10 @@ def count_files_in_directory(directory_path):
 
 # 推荐函数
 def recommend_charts(
-        cfg:list, spec: list[str], draco: drc.Draco, num: int = 5, labeler=lambda i: f"CHART {i + 1}"
+        df, renderer: AltairRenderer() ,cfg: list, spec: list[str], draco: drc.Draco, num: int = 5, labeler=lambda i: f"CHART {i + 1}"
 ) -> dict[str, dict]:
     # Dictionary to store the generated recommendations, keyed by chart name
+    charts = []
     chart_specs = {}
     for i, model in enumerate(draco.complete_spec(spec, num)):
         chart_name = labeler(i)
@@ -40,10 +41,8 @@ def recommend_charts(
                 and chart.facet.column is not alt.Undefined
         ):
             chart = chart.configure_view(continuousWidth=130, continuousHeight=130)
-        display(chart)
-        charts.append([chart, model.cost, cfg[0], ','.join(cfg)])
-
-    return chart_specs
+        charts.append([chart, model.cost[0], cfg[0], ','.join(cfg)])
+    return [chart_specs, charts]
 
 
 def get_csvfile(file_path):
@@ -75,6 +74,8 @@ def generate_spec_base(df):
 # 从更新的事实集中直接生成图表
 # 用到了recommend函数
 def rec_from_generated_spec(
+        df,
+        input_spec_base,
         marks: list[str],
         fields: list[str],
         encoding_channels: list[str],
@@ -102,29 +103,35 @@ def rec_from_generated_spec(
         for enc_ch in encoding_channels
     ]
     recs = {}
+    charts = []
     # k = 0
     for cfg, spec in input_specs:
         # k += 1
         labeler = lambda i: f"CHART {i + 1} ({' | '.join(cfg)})"
-        recs = recs | recommend_charts(cfg=cfg, spec=spec, draco=draco, num=num, labeler=labeler)
-
-    return recs
+        recs = recs | recommend_charts(df, renderer=AltairRenderer(), cfg=cfg, spec=spec, draco=draco, num=num, labeler=labeler)[0]
+        charts.append(recommend_charts(df, renderer=AltairRenderer(), cfg=cfg, spec=spec, draco=draco, num=num, labeler=labeler)[1])
+    print(charts)
+    return [recs,charts]
 
 
 # 用户输入约束条件的推荐函数
-def update_spec(new_marks, new_fields, new_encoding_channels):
+def update_spec(df, input_spec_base, new_marks, new_fields, new_encoding_channels):
+    d = drc.Draco()
     recommendations = rec_from_generated_spec(
+        df,
+        input_spec_base,
         marks=new_marks,
         fields=new_fields,
         encoding_channels=new_encoding_channels,
         draco=d,
     )
+    return recommendations[1]
     # display_debug_data(draco=d, specs=recommendations)
 
 
 # Parameterized helper to avoid code duplication as we iterate on designs
 # 用于查看规范违反情况的函数
-def display_debug_data(draco: drc.Draco, specs: dict[str, dict]):
+def display_debug_data(draco: drc.Draco, specs: dict[str, dict], output_path):
     debugger = drc.DracoDebug(specs=specs, draco=draco)
     chart_preferences = debugger.chart_preferences
     display(Markdown("**Raw debug data**"))
@@ -156,9 +163,7 @@ def display_debug_data(draco: drc.Draco, specs: dict[str, dict]):
     chart.save(output_path + 'debugchart' + str(count_files_in_directory(output_path)) + '.html')
 
 
-def get_users_restriction(df):
-    s = input('输入你的需求:')
-
+def get_users_restriction(s, df):
     # 有用的关键词
     keyword_map = {'颜色': 'color', '渐变色': 'color', '形状': 'shape', '型状': 'shape', '大小': 'size',
                    '点状图': 'point', '点图': 'point',
@@ -184,8 +189,8 @@ def get_users_restriction(df):
     return [new_marks, new_fields, new_encoding_channels]
 
 
-def select_restriction(df):
-    new_marks, new_fields, new_encoding_channels = get_users_restriction(df)
+def select_restriction(s, df):
+    new_marks, new_fields, new_encoding_channels = get_users_restriction(s, df)
     # 去重
     new_marks = list(set(new_marks))
     new_encoding_channels = list(set(new_encoding_channels))
@@ -201,41 +206,55 @@ def select_restriction(df):
     if not new_encoding_channels:
         new_encoding_channels = ['color', 'shape', 'size', 'x']
 
-
     return [new_marks, new_fields, new_encoding_channels]
 
 
-# 保存函数(按照cost)
-def chart_save(n: int, c: list):
+# 保存函数(按照cost)，同种类型最多出三个，保证出图种类
+def chart_save(mark: defaultdict(int), c: list, output_path):
     mark_limit = 3
-    mark = defaultdict(int)
-    i = 0
-    while i < n and c:
-        if mark[c[0][2]] > mark_limit:
-            c = c[1:]
-            continue
-        i += 1
+    if mark[c[0][2]] > mark_limit:
+        return 0
+    else:
         c[0][0].save(output_path + c[0][3] + '.html')
         mark[c[0][2]] += 1
-        c = c[1:]
+        return 1
 
-def f(s,file,num):
-    #s是输入需求，file是csv文件，num是生成数量，把输出图按h1,h2....html保存到\html中。
-    pass
 
-if __name__ == "__main__":
-    path = input("Please input the path of the csv file: ")
-    charts = []
-    output_path = get_output_address() + '\\'
-    df = get_csvfile(path)
-    d = drc.Draco()
-    renderer = AltairRenderer()
-    input_spec_base = generate_spec_base(df)
-    n_marks, n_fields, n_encoding_channels = select_restriction(df)
+def f(input_nl, input_file, num, output_path):  # s是输入需求，file是csv文件，num是生成数量，把输出图按h1,h2....html保存到\html中。
+    df_ = pd.read_csv(input_file)
+    input_spec_base = generate_spec_base(df_)
+    n_ms, n_fs, n_e_ch = select_restriction(input_nl, df_)
+    charts = update_spec(df_, input_spec_base, n_ms, n_fs, n_e_ch)
+    charts = [x for x in charts if x]
+    #print(charts)
+    for i in range(len(charts)):
+        charts[i]=charts[i][0]
     charts = sorted(charts, key=lambda x: x[1])
-    update_spec(n_marks, n_fields, n_encoding_channels)
+    ASPs.get_extra_charts(charts, n_fs, df_)
+    print(charts)
+    mark = defaultdict(int)
+    i = 0
+    while i < num:
+        if not charts:
+            print('no more charts')  # num过多，图出完了
+            break
+        i += chart_save(mark, charts, output_path)
+        charts.pop(0)
+
+
+# if __name__ == "__main__":
+    # path = input("Please input the path of the csv file: ")
+    # charts = []
+    # output_path = get_output_address() + '\\'
+    # df = get_csvfile(path)
+    # d = drc.Draco()
+    # renderer = AltairRenderer()
+    # input_spec_base = generate_spec_base(df)
+    # n_marks, n_fields, n_encoding_channels = select_restriction(df)
+    # update_spec(n_marks, n_fields, n_encoding_channels)
     # ASPs.get_extra_charts(charts, n_fields, df)
-    chart_save(100, charts)
+    # charts = sorted(charts, key=lambda x: x[1])
+    # chart_save(100, charts)
     # display_debug_data(draco=d, specs=recommendations)
     # C:\Users\27217\Documents\GitHub\testing-7-16-23\testing\data\weather.csv
     # C:\Users\27217\Desktop\testing generate charts
