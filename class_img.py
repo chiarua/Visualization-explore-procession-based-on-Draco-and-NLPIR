@@ -15,21 +15,19 @@ warnings.filterwarnings("ignore")
 # (iteration-related deprecation warnings)
 
 
-
-
 class ImgOpr:
     def __init__(self):
-        self.path=''
-        self.output_path=''
-        self.df=self.get_csvfile()
-        self.charts=[]
-        self.d=drc.Draco()
+        self.path = ''
+        self.output_path = ''
+        self.df = self.get_csvfile()
+        self.charts = []
+        self.d = drc.Draco()
         self.renderer = AltairRenderer()
         self.input_spec_base = self.generate_spec_base()
-        self.n_marks,self.n_fields,self.n_encoding_channels= self.get_users_restriction()
+        self.n_marks, self.n_fields, self.n_encoding_channels = self.get_users_restriction()
 
     def recommend_charts(
-            self,cfg: list, spec: list[str], draco: drc.Draco, num: int = 5, labeler=lambda i: f"CHART {i + 1}"
+            self, cfg: list, spec: list[str], draco: drc.Draco, num: int = 5, labeler=lambda i: f"CHART {i + 1}"
     ) -> dict[str, dict]:
         # Dictionary to store the generated recommendations, keyed by chart name
         chart_specs = {}
@@ -54,10 +52,10 @@ class ImgOpr:
         return chart_specs
 
     def get_path(self):
-        self.path=input("Please input the path of the csv file: ")
+        self.path = input("Please input the path of the csv file: ")
 
     def get_output_path(self):
-        self.output_path=input("Please input the address where you want the picture to be output: ")
+        self.output_path = input("Please input the address where you want the picture to be output: ")
 
     def get_csvfile(self):
         df = pd.read_csv(self.path)
@@ -117,7 +115,7 @@ class ImgOpr:
             draco=self.d,
         )
 
-    def display_debug_data(self,draco: drc.Draco, specs: dict[str, dict]):
+    def display_debug_data(self, draco: drc.Draco, specs: dict[str, dict]):
         debugger = drc.DracoDebug(specs=specs, draco=draco)
         chart_preferences = debugger.chart_preferences
         display(Markdown("**Raw debug data**"))
@@ -194,7 +192,7 @@ class ImgOpr:
         if not self.n_encoding_channels:
             self.n_encoding_channels = ['color', 'shape', 'size', 'x']
 
-    def chart_save(self,n: int, c: list):
+    def chart_save(self, n: int, c: list):
         mark_limit = 3
         mark = defaultdict(int)
         i = 0
@@ -210,10 +208,9 @@ class ImgOpr:
     def count_files_in_directory(self, directory_path):
         return len([name for name in os.listdir(directory_path) if os.path.isfile(os.path.join(directory_path, name))])
 
-test=ImgOpr()
+
+test = ImgOpr()
 test.get_path()
 test.charts = sorted(test.charts, key=lambda x: x[1])
 test.update_spec()
 test.chart_save(100)
-
-
