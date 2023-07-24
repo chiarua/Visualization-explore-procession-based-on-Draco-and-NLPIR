@@ -47,7 +47,7 @@ with st.sidebar:
     if input_file is None:
         st.stop()
     else:
-        num = st.slider('生成数量', 1, 20, 1)
+        num = st.slider('生成数量', 1, 20, 3)
         df = load_data(input_file)
         if st.checkbox('显示数据'):
             st.subheader('数据')
@@ -59,13 +59,13 @@ if submit_button2:
         delete_all_files_in_folder(f"{Path.cwd()}/html/")
         ipo.f(input_NL,input_file,num,f"{Path.cwd()}/html/")
         html_dict = process_html_files(f"{Path.cwd()}/html/")
-    tabs = st.tabs([str(i) for i in range(num)])
+    tabs = st.tabs(["图"+str(i) for i in range(1,num+1)])
     for i,(hk,hv) in enumerate(html_dict.items()):
         with tabs[i]:
             components.html(hv,height=400)
             mark,field,channel=hk.split(",")
             with st.expander("详细"):
-                s=f"mark:{mark}\nfield:{field}\nchannel:{channel}"
+                s=f"mark : {mark}\nfield : {field}\nchannel : {channel}"
                 st.text(s)
 
 
