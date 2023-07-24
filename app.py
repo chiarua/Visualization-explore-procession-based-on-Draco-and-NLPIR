@@ -88,7 +88,7 @@ if submit_button2:
     for i,h in enumerate(html_list):
         # st.write(i,len(html_list),len(tabs))
         with tabs[i]:
-            components.html(h)
+            components.html(h,height=400)
             with st.expander("详细"):
                 st.write("123")
 # submit_button3 = st.button('开始生成',key='button3')
