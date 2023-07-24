@@ -19,12 +19,14 @@ class ImgOpr:
     def __init__(self):
         self.path = ''
         self.output_path = ''
-        self.df = self.get_csvfile()
+        self.input_nl = ''
+        self.df = pd.DataFrame()
         self.charts = []
         self.d = drc.Draco()
         self.renderer = AltairRenderer()
         self.input_spec_base = self.generate_spec_base()
         self.n_marks, self.n_fields, self.n_encoding_channels = self.get_users_restriction()
+        self.hard_restriction = set()
 
     def recommend_charts(
             self, cfg: list, spec: list[str], draco: drc.Draco, num: int = 5, labeler=lambda i: f"CHART {i + 1}"
@@ -109,9 +111,9 @@ class ImgOpr:
 
     def update_spec(self):
         recommendations = self.rec_from_generated_spec(
-            marks=self.new_marks,
-            fields=self.new_fields,
-            encoding_channels=self.new_encoding_channels,
+            marks=self.n_marks,
+            fields=self.n_fields,
+            encoding_channels=self.n_encoding_channels,
             draco=self.d,
         )
 
@@ -147,7 +149,6 @@ class ImgOpr:
         chart.save(self.output_path + 'debugchart' + str(self.count_files_in_directory(self.output_path)) + '.html')
 
     def get_users_restriction(self):
-        s = input('输入你的需求:')
 
         # 有用的关键词
         keyword_map = {'颜色': 'color', '渐变色': 'color', '形状': 'shape', '型状': 'shape', '大小': 'size',
@@ -170,10 +171,11 @@ class ImgOpr:
         fields_type = self.df.columns.tolist()
 
         # 生成总参数列表后分类
-        lst = [keyword_map[key] for key in keyword_map.keys() if key in s]
+        lst = [keyword_map[key] for key in keyword_map.keys() if key in self.input_nl]
         new_marks = [i for i in lst if i in mark_type]
         new_encoding_channels = [i for i in lst if i in encoding_channel_type]
-        new_fields = [i for i in fields_type if i in s]
+        new_fields = [i for i in fields_type if i in self.input_nl]
+        self.hard_restriction = set(new_fields + new_marks + new_encoding_channels)
         return [new_marks, new_fields, new_encoding_channels]
 
     def select_restriction(self):
@@ -181,7 +183,6 @@ class ImgOpr:
         self.n_marks = list(set(self.n_marks))
         self.n_encoding_channels = list(set(self.n_encoding_channels))
         # 设置默认参数
-        # 这样设置是不行的，需要对这里或者cost进行修改，不然出垃圾
         if not self.n_marks:
             self.n_marks = ['point', 'bar', 'line', 'area', 'tick', 'rect']
 
@@ -192,25 +193,52 @@ class ImgOpr:
         if not self.n_encoding_channels:
             self.n_encoding_channels = ['color', 'shape', 'size', 'x']
 
-    def chart_save(self, n: int, c: list):
+    def chart_save(self, mark):
         mark_limit = 3
-        mark = defaultdict(int)
-        i = 0
-        while i < n and c:
-            if mark[c[0][2]] > mark_limit:
-                c = c[1:]
-                continue
-            i += 1
-            c[0][0].save(self.output_path + c[0][3] + '.html')
-            mark[c[0][2]] += 1
-            c = c[1:]
+        if mark[self.charts[0][2]] > mark_limit:
+            return 0
+        else:
+            self.charts[0][0].save(self.output_path + self.charts[0][3] + '.html')
+            mark[self.charts[0][2]] += 1
+            return 1
 
     def count_files_in_directory(self, directory_path):
         return len([name for name in os.listdir(directory_path) if os.path.isfile(os.path.join(directory_path, name))])
 
+    def opr_all(self, input_nl, input_file, num, output_path):
+        self.output_path = output_path
+        self.path = input_file
+        self.df = self.get_csvfile()
+        self.input_nl = input_nl
+        self.input_spec_base = self.generate_spec_base()
+        self.n_marks, self.n_fields, self.n_encoding_channels = self.get_users_restriction()
+        self.select_restriction()
+        self.update_spec()
+        ASPs.get_extra_charts(self.charts, self.n_fields, self.df)
+        i = 0
+        while i < len(self.charts):
+            tmp = self.charts[i][3]
+            tmp = tmp.split(',')
+            r = True
+            for j in tmp:
+                if j in self.hard_restriction:
+                    r=False
+            if r:
+                self.charts.pop(i)
+            else:
+                if type(self.charts[i][1]) == list:
+                    self.charts[i][1] = self.charts[i][1][0]
+                i += 1
+        self.charts = sorted(self.charts, key=lambda x: x[1])
+        mark = defaultdict(int)
+        i = 0
+        while i < num:
+            if not self.charts:
+                print('no more charts')  # num过多，图出完了
+                break
+            i += self.chart_save(mark)
+            self.charts.pop(0)
+
 
 test = ImgOpr()
-test.get_path()
-test.charts = sorted(test.charts, key=lambda x: x[1])
-test.update_spec()
-test.chart_save(100)
+test.opr_all('我想要一张反映weather和wind关系的线图', 'C:\\Users\\27217\\Documents\\GitHub\\testing-7-16-23\\testing\\data\\weather.csv')

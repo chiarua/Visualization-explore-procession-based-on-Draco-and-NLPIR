@@ -229,9 +229,9 @@ def f(input_nl, input_file, num, output_path):  # s是输入需求，file是csv�
     #print(charts)
     for i in range(len(charts)):
         charts[i]=charts[i][0]
-    charts = sorted(charts, key=lambda x: x[1])
     ASPs.get_extra_charts(charts, n_fs, df_)
     print(charts)
+    charts = sorted(charts, key=lambda x: x[1])
     mark = defaultdict(int)
     i = 0
     while i < num:
