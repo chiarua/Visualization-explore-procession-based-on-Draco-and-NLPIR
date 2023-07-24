@@ -25,13 +25,13 @@ def process_html_files(folder_path):
 
     folder_path = Path(folder_path)
 
-    l=[]
-
+    d={}
     for file_path in folder_path.glob("**/*.html"):
-        with open(file_path,"r") as f:
+        n=file_path.stem
+        with file_path.open("r") as f:
             h=f.read()
-            l.append(h)
-    return l
+            d[n]=h
+    return d
 
 st.subheader("可视化推荐")
 st.divider()
@@ -58,12 +58,14 @@ if submit_button2:
     with st.spinner('Wait for it...'):
         delete_all_files_in_folder(f"{Path.cwd()}/html/")
         ipo.f(input_NL,input_file,num,f"{Path.cwd()}/html/")
-        html_list = process_html_files(f"{Path.cwd()}/html/")
+        html_dict = process_html_files(f"{Path.cwd()}/html/")
     tabs = st.tabs([str(i) for i in range(num)])
-    for i,h in enumerate(html_list):
+    for i,(hk,hv) in enumerate(html_dict.items()):
         with tabs[i]:
-            components.html(h,height=400)
+            components.html(hv,height=400)
+            mark,field,channel=hk.split(",")
             with st.expander("详细"):
-                st.write("123")
+                s=f"mark:{mark}\nfield:{field}\nchannel:{channel}"
+                st.text(s)
 
 
