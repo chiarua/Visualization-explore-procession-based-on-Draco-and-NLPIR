@@ -206,6 +206,7 @@ class ImgOpr:
         return len([name for name in os.listdir(directory_path) if os.path.isfile(os.path.join(directory_path, name))])
 
     def opr_all(self, input_nl, input_file, num, output_path):
+        self.output_path = output_path
         self.path = input_file
         self.df = self.get_csvfile()
         self.input_nl = input_nl
@@ -218,11 +219,11 @@ class ImgOpr:
         while i < len(self.charts):
             tmp = self.charts[i][3]
             tmp = tmp.split(',')
-            r = 0
+            r = True
             for j in tmp:
                 if j in self.hard_restriction:
-                    r += 1
-            if r < 2:
+                    r=False
+            if r:
                 self.charts.pop(i)
             else:
                 if type(self.charts[i][1]) == list:
