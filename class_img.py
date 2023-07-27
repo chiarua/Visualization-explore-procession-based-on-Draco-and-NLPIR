@@ -89,7 +89,6 @@ class ImgOpr:
                     "entity(encoding,m0,e0).",
                     f"attribute((encoding,field),e0,{field}).",
                     f"attribute((encoding,channel),e0,{enc_ch}).",
-                    # 暂时去掉
                     # filter out designs with less than 3 encodings
                     ":- {entity(encoding,_,_)} < 3.",
                     # exclude multi-layer designs
@@ -240,5 +239,3 @@ class ImgOpr:
             self.charts.pop(0)
 
 
-test = ImgOpr()
-test.opr_all('我想要一张反映weather和wind关系的线图', 'C:\\Users\\27217\\Documents\\GitHub\\testing-7-16-23\\testing\\data\\weather.csv')
