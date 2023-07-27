@@ -22,7 +22,7 @@
 
 下载并安装依赖库
 
-用你的ide打开app.py
+用你的IDE打开app.py
 
 在终端输入`streamlit run app.py`
 
