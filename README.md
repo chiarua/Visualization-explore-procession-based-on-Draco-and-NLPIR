@@ -1,6 +1,5 @@
 # Visualization-explore-procession-based-on-Draco-and-NLPIR
 2023.7大创项目及小学期实习：可视化图形推荐（探索）系统（Draco部分）
-项目尚在开发，仅作代码仓之用
 
 ### 项目背景
 
